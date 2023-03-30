@@ -12,7 +12,6 @@ module.exports = (sequelize) => {
                     fieldName: "boardId",
                     allowNull: false,
                 },
-                onDelete: 'CASCADE'
             });
             Board.hasMany(models.Column, {
                 foreignKey: {
@@ -20,7 +19,6 @@ module.exports = (sequelize) => {
                     fieldName: "boardId",
                     allowNull: false,
                 },
-                onDelete: 'CASCADE'
             });
             Board.hasMany(models.BoardImage, {
                 foreignKey: {
@@ -28,10 +26,9 @@ module.exports = (sequelize) => {
                     fieldName: "boardId",
                     allowNull: false,
                 },
-                onDelete: 'CASCADE'
             });
             Board.belongsToMany(models.User, {
-                through: models.UserBoard,
+                through: models.BoardMember,
                 foreignKey: {
                     type: DataTypes.INTEGER,
                     fieldName: "boardId",

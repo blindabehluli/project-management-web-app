@@ -9,32 +9,6 @@ module.exports = (sequelize) => {
         // Model association are defined here
 
         static associate(models) {
-            User.hasMany(models.UserWorkspace, {
-                foreignKey: {
-                    type: DataTypes.INTEGER,
-                    fieldName: "userId",
-                    allowNull: false,
-                },
-                onDelete: 'CASCADE'
-            });
-
-            User.hasMany(models.UserBoard, {
-                foreignKey: {
-                    type: DataTypes.INTEGER,
-                    fieldName: "userId",
-                    allowNull: false,
-                },
-                onDelete: 'CASCADE'
-            });
-
-            User.hasMany(models.UserTask, {
-                foreignKey: {
-                    type: DataTypes.INTEGER,
-                    fieldName: "userId",
-                    allowNull: false,
-                },
-                onDelete: 'CASCADE'
-            });
 
             User.hasMany(models.Workspace, {
                 foreignKey: {
@@ -42,11 +16,10 @@ module.exports = (sequelize) => {
                     fieldName: "userId",
                     allowNull: false,
                 },
-                onDelete: 'CASCADE'
             });
             
             User.belongsToMany(models.Workspace, {
-                through: models.UserWorkspace,
+                through: models.WorkspaceMember,
                 foreignKey: {
                     type: DataTypes.INTEGER,
                     fieldName: "userId",
@@ -56,13 +29,23 @@ module.exports = (sequelize) => {
             });
 
             User.belongsToMany(models.Board, {
-                through: models.UserBoard,
+                through: models.BoardMember,
                 foreignKey: {
                     type: DataTypes.INTEGER,
                     fieldName: "userId",
                     allowNull: false,
                 },
                 otherKey: 'boardId',
+            });
+
+            User.belongsToMany(models.Task, {
+                through: models.TaskAssignees,
+                foreignKey: {
+                    type: DataTypes.INTEGER,
+                    fieldName: "userId",
+                    allowNull: false,
+                },
+                otherKey: 'taskId',
             });
         }
     }
@@ -125,14 +108,14 @@ module.exports = (sequelize) => {
                 }
             }
         },
-        profileColor: {
+        label: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: "#f1f2f3"
         }
     }, {
         sequelize, // We need to pass the connection instance
-        modelName: 'User' // We need to choose the model name
+        modelName: 'User' // We can choose the model name
     });
 
     return User;

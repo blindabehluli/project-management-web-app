@@ -3,29 +3,29 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    class UserBoard extends Model {
-
-        // Model association are defined here
-
+    class WorkspaceMember extends Model {
         static associate(models) {
-            UserBoard.belongsTo(models.User, {
+
+            // Model association are defined here
+
+            WorkspaceMember.belongsTo(models.User, {
                 foreignKey: {
                     type: DataTypes.INTEGER,
                     fieldName: 'userId',
                     allowNull: false
                 },
             });
-            UserBoard.belongsTo(models.Board, {
+            WorkspaceMember.belongsTo(models.Workspace, {
                 foreignKey: {
                     type: DataTypes.INTEGER,
-                    fieldName: 'boardId',
+                    fieldName: 'workspaceId',
                     allowNull: false
                 },
             });
         }
     }
 
-    UserBoard.init(
+    WorkspaceMember.init(
         {
             // Model attributes
             id: {
@@ -36,9 +36,9 @@ module.exports = (sequelize) => {
         },
         {
             sequelize,
-            modelName: 'UserBoard',
+            modelName: 'WorkspaceMember',
         }
     );
 
-    return UserBoard;
+    return WorkspaceMember;
 };

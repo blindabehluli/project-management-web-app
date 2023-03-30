@@ -12,7 +12,6 @@ module.exports = (sequelize) => {
                     fieldName: "workspaceId",
                     allowNull: false,
                 },
-                onDelete: 'CASCADE'
             });
             Workspace.hasMany(models.Board, {
                 foreignKey: {
@@ -20,10 +19,9 @@ module.exports = (sequelize) => {
                     fieldName: "workspaceId",
                     allowNull: false,
                 },
-                onDelete: 'CASCADE'
             });
             Workspace.belongsToMany(models.User, {
-                through: models.UserWorkspace,
+                through: models.WorkspaceMember,
                 foreignKey: {
                     type: DataTypes.INTEGER,
                     fieldName: "workspaceId",

@@ -3,19 +3,19 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    class UserTask extends Model {
+    class TaskAssignees extends Model {
         static associate(models) {
 
             // Model association are defined here
 
-            UserTask.belongsTo(models.User, {
+            TaskAssignees.belongsTo(models.User, {
                 foreignKey: {
                     type: DataTypes.INTEGER,
                     fieldName: 'userId',
                     allowNull: false
                 },
             });
-            UserTask.belongsTo(models.Task, {
+            TaskAssignees.belongsTo(models.Task, {
                 foreignKey: {
                     type: DataTypes.INTEGER,
                     fieldName: 'taskId',
@@ -25,15 +25,20 @@ module.exports = (sequelize) => {
         }
     }
 
-    UserTask.init(
+    TaskAssignees.init(
         {
             // Model attributes
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
+            },
         },
         {
             sequelize,
-            modelName: 'UserTask',
+            modelName: 'TaskAssignees',
         }
     );
 
-    return UserTask;
+    return TaskAssignees;
 };

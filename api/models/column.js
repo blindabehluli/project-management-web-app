@@ -12,7 +12,6 @@ module.exports = (sequelize) => {
                     fieldName: "columnId",
                     allowNull: false,
                 },
-                onDelete: 'CASCADE'
             });
             Column.belongsTo(models.Board, {
                 foreignKey: {
