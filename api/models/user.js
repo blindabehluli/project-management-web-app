@@ -108,7 +108,7 @@ module.exports = (sequelize) => {
                 }
             }
         },
-        label: {
+        profileColor: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: "#f1f2f3"
