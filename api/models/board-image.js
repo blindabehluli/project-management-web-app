@@ -1,27 +1,36 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    class BoardImage extends Model {
-        static associate(models) {
+  class BoardImage extends Model {
+    static associate(models) {
+      // Model association are defined here
 
-            // Model association are defined here
-
-            BoardImage.belongsTo(models.Board, {
-                foreignKey: {
-                    type: DataTypes.INTEGER,
-                    fieldName: "boardId",
-                    allowNull: false,
-                },
-            });
-        }
+      BoardImage.belongsTo(models.Board, {
+        foreignKey: {
+          type: DataTypes.INTEGER,
+          fieldName: "boardId",
+          allowNull: false,
+        },
+      });
     }
+  }
 
-    BoardImage.init({
-        // model attributes
-    }, {
-        sequelize,
-        modelName: 'BoardImage',
-    });
+  BoardImage.init(
+    {
+      // model attributes
+      boardImageUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          isUrl: true,
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: "BoardImage",
+    }
+  );
 
-    return BoardImage;
+  return BoardImage;
 };

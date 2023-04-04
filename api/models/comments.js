@@ -1,27 +1,33 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    class Comment extends Model {
-        static associate(models) {
+  class Comment extends Model {
+    static associate(models) {
+      // Model association are defined here
 
-            // Model association are defined here
-
-            Comment.belongsTo(models.Task, {
-                foreignKey: {
-                    type: DataTypes.INTEGER,
-                    fieldName: "taskId",
-                    allowNull: false,
-                },
-            });
-        }
+      Comment.belongsTo(models.Task, {
+        foreignKey: {
+          type: DataTypes.INTEGER,
+          fieldName: "taskId",
+          allowNull: false,
+        },
+      });
     }
+  }
 
-    Comment.init({
-        // model attributes
-    }, {
-        sequelize,
-        modelName: 'Comment',
-    });
+  Comment.init(
+    {
+      // model attributes
+      comment: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+    },
+    {
+      sequelize,
+      modelName: "Comment",
+    }
+  );
 
-    return Comment;
+  return Comment;
 };

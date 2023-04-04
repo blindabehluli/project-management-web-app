@@ -1,8 +1,9 @@
-'use strict';
+"use strict";
 
-const express = require('express');
-const morgan = require('morgan');
-const { sequelize } = require('./models');
+const express = require("express");
+const morgan = require("morgan");
+const userRoutes = require('./routes/user-routes');
+const { sequelize } = require("./models");
 
 // Create the Express app.
 const app = express();
@@ -11,19 +12,22 @@ const app = express();
 app.use(express.json());
 
 // Setup morgan which gives us HTTP request logging.
-app.use(morgan('dev'));
+app.use(morgan("dev"));
+
+// Add user routes.
+app.use("/api", userRoutes);
 
 // Setup a friendly greeting for the root route.
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.json({
-    message: 'Welcome to the Project Management Web App!',
+    message: "Welcome to the Project Management Web App!",
   });
 });
 
 // Send 404 if no other route matched.
 app.use((req, res) => {
   res.status(404).json({
-    message: 'Route Not Found',
+    message: "Route Not Found",
   });
 });
 
@@ -33,27 +37,26 @@ app.use((err, req, res, next) => {
 
   res.status(500).json({
     message: err.message,
-    error: process.env.NODE_ENV === 'production' ? {} : err,
+    error: process.env.NODE_ENV === "production" ? {} : err,
   });
 });
 
 // Set our port.
-app.set('port', process.env.PORT || 5001);
+app.set("port", process.env.PORT || 5001);
 
 // Test the database connection.
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
+    console.log("Connection has been established successfully.");
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.error("Unable to connect to the database:", error);
   }
 })();
 
 // Sequelize Model synchronization, then start listening on our port.
-sequelize.sync()
-  .then( () => {
-    const server = app.listen(app.get('port'), () => {
-      console.log(`Express server is listening on port ${server.address().port}`);
-    });
+sequelize.sync().then(() => {
+  const server = app.listen(app.get("port"), () => {
+    console.log(`Express server is listening on port ${server.address().port}`);
   });
+});
