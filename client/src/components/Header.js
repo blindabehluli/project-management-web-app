@@ -12,11 +12,11 @@ class Header extends React.PureComponent {
     return (
       <div className="">
         <div className="">
-          <h1 className="">Testin Authentication</h1>
+          <h1 className="">Testing Authentication</h1>
           <nav>
             {authUser ? (
               <>
-                <span>Welcome, {authUser.name}!</span>
+                <span>Welcome, {authUser.firstName}!</span>
                 <Link to="/signout">Sign Out</Link>
               </>
             ) : (

@@ -1,93 +1,84 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Form from "./Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import withContext from "../Context";
 
-class UserSignIn extends Component {
-  state = {
-    emailAddress: "",
-    password: "",
-    errors: [],
-  };
+function UserSignIn(props) {
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
 
-  render() {
-    const { emailAddress, password, errors } = this.state;
-
-    return (
-      <div className="f">
-        <h2>Sign In</h2>
-
-        <Form
-          cancel={this.cancel}
-          errors={errors}
-          submit={this.submit}
-          submitButtonText="Sign In"
-          elements={() => (
-            <>
-              <label htmlFor="emailAddress"></label>
-              <input
-                id="emailAddress"
-                name="emailAddress"
-                type="text"
-                value={emailAddress}
-                onChange={this.change}
-              />
-
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={password}
-                onChange={this.change}
-              />
-            </>
-          )}
-        />
-
-        <p>
-          Don't have a user account? <Link to="/signup">Click here</Link> to
-          sign up!
-        </p>
-      </div>
-    );
-  }
-
-  // Handles changes on the sign in input form texts and set state
-  change = (event) => {
+  function change(event) {
     const name = event.target.name;
     const value = event.target.value;
 
-    this.setState(() => {
-      return {
-        [name]: value,
-      };
-    });
-  };
+    if (name === "emailAddress") {
+      setEmailAddress(value);
+    } else if (name === "password") {
+      setPassword(value);
+    }
+  }
 
-  // Handles the submit form button checks if user is authenticated to sign in
-  submit = () => {
-    const { context } = this.props;
-    const { emailAddress, password } = this.state;
+  function submit() {
+    const { context } = props;
 
     context.actions
       .signIn(emailAddress, password)
       .then((user) => {
         if (user === null) {
-          this.setState(() => {
-            return { errors: ["Sign-in was unsuccessful"] };
-          });
+          setErrors(["Sign-in was unsuccessful"]);
         } else {
-          this.props.history.push("/");
+          navigate("/");
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-  cancel = () => {
-    this.props.history.push("/");
-  };
+  }
+
+  function cancel() {
+    navigate("/");
+  }
+
+  return (
+    <div className="f">
+      <h2>Sign In</h2>
+
+      <Form
+        cancel={cancel}
+        errors={errors}
+        submit={submit}
+        submitButtonText="Sign In"
+        elements={() => (
+          <>
+            <label htmlFor="emailAddress"></label>
+            <input
+              id="emailAddress"
+              name="emailAddress"
+              type="text"
+              value={emailAddress}
+              onChange={change}
+            />
+
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={password}
+              onChange={change}
+            />
+          </>
+        )}
+      />
+
+      <p>
+        Don't have a user account? <Link to="/signup">Click here</Link> to sign
+        up!
+      </p>
+    </div>
+  );
 }
 
 export default withContext(UserSignIn);

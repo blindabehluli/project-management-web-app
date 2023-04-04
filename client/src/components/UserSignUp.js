@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Form from "./Form";
 import withContext from "../Context";
 
@@ -9,6 +9,7 @@ function UserSignUp(props) {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
 
   // Handles changes on the sign up input form texts and set state
   const handleChange = (event) => {
@@ -49,7 +50,7 @@ function UserSignUp(props) {
         setErrors(errors);
       } else {
         await context.actions.signIn(emailAddress, password);
-        props.history.push("/");
+        navigate("/authenticated");
       }
     } catch (error) {
       console.log(error);
@@ -57,7 +58,7 @@ function UserSignUp(props) {
   };
 
   const handleCancel = () => {
-    props.history.push("/");
+    navigate("/");
   };
 
   return (

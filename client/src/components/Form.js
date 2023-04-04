@@ -24,9 +24,9 @@ const Form = (props) => {
       <ErrorsDisplay errors={errors} />
       <form onSubmit={handleSubmit}>
         {elements()}
-        <div className="pad-bottom">
-          <button className="button" type="submit">{submitButtonText}</button>
-          <button className="button button-secondary" onClick={handleCancel}>Cancel</button>
+        <div className="">
+          <button className="" type="submit">{submitButtonText}</button>
+          <button className="" onClick={handleCancel}>Cancel</button>
         </div>
       </form>
     </div>

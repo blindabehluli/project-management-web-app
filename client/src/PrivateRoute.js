@@ -1,22 +1,23 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { Consumer } from "./Context";
+import { Navigate } from "react-router-dom";
 
 // Component to handle Private Routes
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({ children, ...rest }) => {
   return (
     <Consumer>
       {(context) => (
         <Route
           {...rest}
-          element={(props) =>
+          element={
             context.authenticatedUser ? (
-              <Component {...props} />
+              children
             ) : (
               <Navigate
                 to={{
                   pathname: "/signin",
-                  state: { from: props.location },
+                  state: { from: rest.location },
                 }}
               />
             )

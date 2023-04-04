@@ -6,8 +6,7 @@ const Authenticated = ({ context  }) => {
   return (
   <div className="">
     <div className="">
-      <h1>{authUser.name} is authenticated!</h1>
-      <p>Your username is {authUser.username}.</p>
+      <h1>{authUser.firstName} is authenticated!</h1>
     </div>
   </div>
   );
