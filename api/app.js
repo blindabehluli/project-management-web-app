@@ -4,12 +4,16 @@ const express = require("express");
 const morgan = require("morgan");
 const userRoutes = require('./routes/user-routes');
 const { sequelize } = require("./models");
+const cors = require('cors');
 
 // Create the Express app.
 const app = express();
 
 // Setup request body JSON parsing.
 app.use(express.json());
+
+// Cross origin
+app.use(cors());
 
 // Setup morgan which gives us HTTP request logging.
 app.use(morgan("dev"));
