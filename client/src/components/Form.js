@@ -20,16 +20,16 @@ const Form = (props) => {
   }
 
   return (
-    <div>
+    <>
       <ErrorsDisplay errors={errors} />
       <form onSubmit={handleSubmit}>
         {elements()}
         <div className="">
-          <button className="" type="submit">{submitButtonText}</button>
-          <button className="" onClick={handleCancel}>Cancel</button>
+          <button className="text-green-500 font-bold mr-2" type="submit">{submitButtonText}</button>
+          <button className="text-rose-500 font-bold ml-2" onClick={handleCancel}>Cancel</button>
         </div>
       </form>
-    </div>
+    </>
   );
 }
 
@@ -38,13 +38,10 @@ function ErrorsDisplay({ errors }) {
 
   if (errors.length) {
     errorsDisplay = (
-      <div>
-        <h2 className="">Validation errors</h2>
-        <div className="">
-          <ul>
-            {errors.map((error, i) => <li key={i}>{error}</li>)}
-          </ul>
-        </div>
+      <div className="text-rose-500">
+        <ul>
+          {errors.map((error, i) => <li key={i}>{error}</li>)}
+        </ul>
       </div>
     );
   }
