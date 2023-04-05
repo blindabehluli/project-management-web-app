@@ -1,24 +1,24 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  class BoardImage extends Model {
+  class Attachment extends Model {
     static associate(models) {
       // Model association are defined here
 
-      BoardImage.belongsTo(models.Board, {
+      Attachment.belongsTo(models.Task, {
         foreignKey: {
           type: DataTypes.INTEGER,
-          fieldName: "boardId",
+          fieldName: "taskId",
           allowNull: false,
         },
       });
     }
   }
 
-  BoardImage.init(
+  Attachment.init(
     {
       // model attributes
-      boardImageUrl: {
+      attachmentUrl: {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
@@ -28,10 +28,10 @@ module.exports = (sequelize) => {
     },
     {
       sequelize,
-      modelName: "BoardImage",
-      tableName: "BoardImage"
+      modelName: "Attachment",
+      tableName: "Attachment"
     }
   );
 
-  return BoardImage;
+  return Attachment;
 };

@@ -51,6 +51,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "Column",
+      tableName: "Column"
     }
   );
 

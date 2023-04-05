@@ -76,6 +76,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "Board",
+      tableName: "Board"
     }
   );
 

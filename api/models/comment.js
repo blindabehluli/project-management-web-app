@@ -1,11 +1,11 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  class Attachment extends Model {
+  class Comment extends Model {
     static associate(models) {
       // Model association are defined here
 
-      Attachment.belongsTo(models.Task, {
+      Comment.belongsTo(models.Task, {
         foreignKey: {
           type: DataTypes.INTEGER,
           fieldName: "taskId",
@@ -15,22 +15,20 @@ module.exports = (sequelize) => {
     }
   }
 
-  Attachment.init(
+  Comment.init(
     {
       // model attributes
-      attachmentUrl: {
+      comment: {
         type: DataTypes.STRING,
         allowNull: true,
-        validate: {
-          isUrl: true,
-        },
       },
     },
     {
       sequelize,
-      modelName: "Attachment",
+      modelName: "Comment",
+      tableName: "Comment"
     }
   );
 
-  return Attachment;
+  return Comment;
 };
