@@ -37,6 +37,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "Invitation",
+      tableName: "Invitation"
     }
   );
 

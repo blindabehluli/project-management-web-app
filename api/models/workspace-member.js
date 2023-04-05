@@ -44,6 +44,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "WorkspaceMember",
+      tableName: "WorkspaceMember"
     }
   );
 

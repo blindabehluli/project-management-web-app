@@ -39,6 +39,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "SubTask",
+      tableName: "SubTask"
     }
   );
 

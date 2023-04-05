@@ -38,7 +38,7 @@ module.exports = (sequelize) => {
       });
 
       Task.belongsToMany(models.User, {
-        through: models.TaskAssignees,
+        through: models.TaskAssignee,
         foreignKey: {
           type: DataTypes.INTEGER,
           fieldName: "taskId",
@@ -87,6 +87,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "Task",
+      tableName: "Task"
     }
   );
 

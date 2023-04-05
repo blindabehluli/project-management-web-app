@@ -70,6 +70,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "Workspace",
+      tableName: "Workspace"
     }
   );
 

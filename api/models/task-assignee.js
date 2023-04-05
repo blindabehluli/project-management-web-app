@@ -3,18 +3,18 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  class TaskAssignees extends Model {
+  class TaskAssignee extends Model {
     static associate(models) {
       // Model association are defined here
 
-      TaskAssignees.belongsTo(models.User, {
+      TaskAssignee.belongsTo(models.User, {
         foreignKey: {
           type: DataTypes.INTEGER,
           fieldName: "userId",
           allowNull: false,
         },
       });
-      TaskAssignees.belongsTo(models.Task, {
+      TaskAssignee.belongsTo(models.Task, {
         foreignKey: {
           type: DataTypes.INTEGER,
           fieldName: "taskId",
@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
     }
   }
 
-  TaskAssignees.init(
+  TaskAssignee.init(
     {
       // Model attributes
       id: {
@@ -35,9 +35,10 @@ module.exports = (sequelize) => {
     },
     {
       sequelize,
-      modelName: "TaskAssignees",
+      modelName: "TaskAssignee",
+      tableName: "TaskAssignee"
     }
   );
 
-  return TaskAssignees;
+  return TaskAssignee;
 };

@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
       });
 
       User.belongsToMany(models.Task, {
-        through: models.TaskAssignees,
+        through: models.TaskAssignee,
         foreignKey: {
           type: DataTypes.INTEGER,
           fieldName: "userId",
@@ -94,16 +94,12 @@ module.exports = (sequelize) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-        set(val) {
-          const hashedPassword = bcrypt.hashSync(val, 10);
-          this.setDataValue("password", hashedPassword);
-        },
         validate: {
           notNull: {
-            msg: "A password is required",
+            msg: "Password is required.",
           },
           notEmpty: {
-            msg: "Please provide a password",
+            msg: "Please provide a password.",
           },
         },
       },
@@ -121,8 +117,14 @@ module.exports = (sequelize) => {
     {
       sequelize, // We need to pass the connection instance
       modelName: "User", // We can choose the model name
+      tableName: "User" // We can choose the table name
     }
   );
+
+  User.afterValidate((user) => {
+    const hashedPassword = bcrypt.hashSync(user.password, 10);
+    user.password = hashedPassword;
+  });
 
   return User;
 };
