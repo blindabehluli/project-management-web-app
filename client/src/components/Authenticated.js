@@ -5,9 +5,6 @@ import { PrimaryButton, SecondaryButton } from "./Button/ButtonComponents";
 
 const Header = ({ context }) => {
   const authUser = context.authenticatedUser;
-  const handleSignOut = () => {
-    context.actions.signOut();
-  };
 
   return (
     <>
@@ -17,7 +14,7 @@ const Header = ({ context }) => {
         </div>
         <div className="flex space-x-4">
           <SecondaryButton>Settings</SecondaryButton>
-          <Link to="/signout" onClick={handleSignOut}>
+          <Link to="/signout">
             <PrimaryButton>Sign out</PrimaryButton>
           </Link>
         </div>
