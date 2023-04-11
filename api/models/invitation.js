@@ -26,11 +26,11 @@ module.exports = (sequelize) => {
     {
       // model attributes
       role: {
-        type: DataTypes.ENUM("admin", "viewer", "editor"),
+        type: DataTypes.ENUM("admin", "member"),
         allowNull: false,
         defaultValue: "viewer",
         validate: {
-          isIn: [["admin", "viewer", "editor"]],
+          isIn: [["admin", "member"]],
         },
       },
     },
