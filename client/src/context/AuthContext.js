@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
-import Data from "./Data";
+import Data from "../data/api";
 
 const Context = React.createContext();
 
@@ -23,6 +23,8 @@ export function Provider({ children }) {
 
       const cookieOptions = {
         expires: 1,
+        sameSite: 'none',
+        secure: true // add the secure option 
       };
 
       Cookies.set("authenticatedUser", JSON.stringify(user), cookieOptions);

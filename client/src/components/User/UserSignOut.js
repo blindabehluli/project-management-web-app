@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import withContext from '../Context';
+import withContext from '../../context/AuthContext';
 
 const UserSignOut = ({ context }) => {
   useEffect(() => {

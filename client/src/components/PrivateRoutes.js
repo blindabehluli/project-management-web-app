@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { Consumer } from "./Context";
+import { Consumer } from "../context/AuthContext";
 
 // Component to handle Private Routes
 const PrivateRoutes = ({ children }) => {
