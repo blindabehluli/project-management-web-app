@@ -33,11 +33,11 @@ module.exports = (sequelize) => {
         autoIncrement: true,
       },
       role: {
-        type: DataTypes.ENUM("admin", "viewer", "editor"),
+        type: DataTypes.ENUM("admin", "member"),
         allowNull: false,
-        defaultValue: "viewer",
+        defaultValue: "member",
         validate: {
-          isIn: [["admin", "viewer", "editor"]],
+          isIn: [["admin", "member"]],
         },
       },
     },
