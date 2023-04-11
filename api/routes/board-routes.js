@@ -4,7 +4,8 @@ const express = require("express");
 const { Workspace, Board } = require("../models");
 const { asyncHandler } = require("../middleware/async-handler");
 const { authenticateUser } = require("../middleware/auth-user");
-const { requireWorkspaceAccess } = require("../middleware/requireWorkspaceAccess");
+const { workspaceAccess } = require("../middleware/workspace-access");
+const { errorHandler } = require("../middleware/error-handler");
 
 // Router instance
 const router = express.Router();
@@ -16,7 +17,7 @@ const router = express.Router();
 router.get(
   "/workspaces/:workspaceId/boards",
   authenticateUser,
-  requireWorkspaceAccess,
+  workspaceAccess("member"),
   asyncHandler(async (req, res) => {
     const workspace = await Workspace.findByPk(req.params.workspaceId);
     const boards = await workspace.getBoards();
@@ -31,7 +32,7 @@ router.get(
 router.get(
   "/workspaces/:workspaceId/boards/:id",
   authenticateUser,
-  requireWorkspaceAccess,
+  workspaceAccess("member"),
   asyncHandler(async (req, res) => {
     const board = await Board.findOne({
       where: { id: req.params.id, workspaceId: req.params.workspaceId },
@@ -53,14 +54,18 @@ router.get(
 router.post(
   "/workspaces/:workspaceId/boards",
   authenticateUser,
-  requireWorkspaceAccess,
+  workspaceAccess("member"),
   asyncHandler(async (req, res) => {
-    const workspace = await Workspace.findByPk(req.params.workspaceId);
-    const board = await workspace.createBoard(req.body);
-    res
-      .status(201)
-      .location(`/workspaces/${workspace.id}/boards/${board.id}`)
-      .end();
+    try {
+      const workspace = await Workspace.findByPk(req.params.workspaceId);
+      const board = await workspace.createBoard(req.body);
+      res
+        .status(201)
+        .location(`/workspaces/${workspace.id}/boards/${board.id}`)
+        .end();
+    } catch (error) {
+      errorHandler(error, res);
+    }
   })
 );
 
@@ -72,22 +77,28 @@ router.post(
 router.put(
   "/workspaces/:workspaceId/boards/:id",
   authenticateUser,
-  requireWorkspaceAccess,
+  workspaceAccess("member"),
   asyncHandler(async (req, res) => {
-    const board = await Board.findOne({
-      where: { id: req.params.id, workspaceId: req.params.workspaceId },
-    });
+    try {
+      const board = await Board.findOne({
+        where: { id: req.params.id, workspaceId: req.params.workspaceId },
+      });
 
-    if (!board) {
-      return res.status(404).json({ message: "Board not found" });
+      if (!board) {
+        return res.status(404).json({ message: "Board not found" });
+      }
+
+      await board.update(req.body);
+
+      res
+        .status(204)
+        .location(
+          `/workspaces/${req.params.workspaceId}/boards/${req.params.id}`
+        )
+        .end();
+    } catch (error) {
+      errorHandler(error, res);
     }
-
-    await board.update(req.body);
-
-    res
-      .status(204)
-      .location(`/workspaces/${req.params.workspaceId}/boards/${req.params.id}`)
-      .end();
   })
 );
 
@@ -98,7 +109,7 @@ router.put(
 router.delete(
   "/workspaces/:workspaceId/boards/:id",
   authenticateUser,
-  requireWorkspaceAccess,
+  workspaceAccess("admin"),
   asyncHandler(async (req, res) => {
     const board = await Board.findOne({
       where: { id: req.params.id, workspaceId: req.params.workspaceId },

@@ -14,6 +14,7 @@ const router = express.Router();
 router.get(
   "/workspaces",
   authenticateUser,
+  workspaceAccess("member"),
   asyncHandler(async (req, res) => {
     const workspaces = await Workspace.findAll({
       include: [
