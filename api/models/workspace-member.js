@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
           fieldName: "workspaceId",
           allowNull: false,
         },
-      });
+      });      
     }
   }
 

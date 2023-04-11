@@ -4,6 +4,7 @@ const express = require("express");
 const { User } = require("../models");
 const { asyncHandler } = require("../middleware/async-handler");
 const { authenticateUser } = require("../middleware/auth-user");
+const { errorHandler } = require("../middleware/error-handler");
 
 // Router instance
 const router = express.Router();
@@ -19,12 +20,12 @@ router.get(
   asyncHandler(async (req, res) => {
     const user = await req.currentUser;
     const filteredUser = await User.findOne({
-      where: {id: user.id},
-      attributes: { exclude: ['createdAt', 'updatedAt', 'password'] }
-    })
-    console.log(user.id);
+      where: { id: user.id },
+      attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+    });
     res.json(filteredUser);
-}));
+  })
+);
 
 /*
   A /api/users POST route that will create a new user,
@@ -38,15 +39,7 @@ router.post(
       await User.create(req.body);
       res.status(201).location("/").end();
     } catch (error) {
-      if (
-        error.name === "SequelizeValidationError" ||
-        error.name === "SequelizeUniqueConstraintError"
-      ) {
-        const errors = error.errors.map((err) => err.message);
-        res.status(400).json({ errors });
-      } else {
-        throw error;
-      }
+      errorHandler(error, res);
     }
   })
 );

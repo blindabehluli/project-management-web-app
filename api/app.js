@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const userRoutes = require('./routes/user-routes');
 const workspaceRoutes = require('./routes/workspace-routes');
 const boardRoutes = require('./routes/board-routes');
+const workspaceMemberRoutes = require("./routes/workspace-member");
 
 const { sequelize } = require("./models");
 const cors = require('cors');
@@ -26,6 +27,7 @@ app.use(morgan("dev"));
 // Add api routes for each model.
 app.use("/api", userRoutes);
 app.use("/api", workspaceRoutes);
+app.use("/api", workspaceMemberRoutes);
 app.use("/api", boardRoutes);
 
 // Setup a friendly greeting for the root route.

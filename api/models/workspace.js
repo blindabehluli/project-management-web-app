@@ -70,7 +70,18 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "Workspace",
-      tableName: "Workspace"
+      tableName: "Workspace",
+      hooks: {
+        // This hook is executed after a new Workspace is created and saved to the database
+        async afterCreate(workspace, options) {
+          // Create a WorkspaceMember instance with the role of 'default'
+          await sequelize.models.WorkspaceMember.create({
+            userId: workspace.userId,
+            workspaceId: workspace.id,
+            role: 'admin',
+          }, { transaction: options.transaction });
+        }
+      }
     }
   );
 
