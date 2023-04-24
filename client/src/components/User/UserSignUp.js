@@ -51,7 +51,7 @@ function UserSignUp(props) {
         setErrors(errors);
       } else {
         await context.actions.signIn(emailAddress, password);
-        navigate("/authenticated");
+        navigate("/dashboard");
       }
     } catch (error) {
       console.log(error);
@@ -95,7 +95,7 @@ function UserSignUp(props) {
                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" />
               </div>
               <div className="flex flex-col space-y-4">
-              <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
+              <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
               </div>
               <p className="text-sm font-light text-gray-500">
                 Already have an account? <Link to="/signin" className="font-medium text-primary-600 hover:underline">Sign in</Link>
