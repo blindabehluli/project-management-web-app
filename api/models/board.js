@@ -26,15 +26,6 @@ module.exports = (sequelize) => {
           allowNull: false,
         },
       });
-      Board.belongsToMany(models.User, {
-        through: models.BoardMember,
-        foreignKey: {
-          type: DataTypes.INTEGER,
-          fieldName: "boardId",
-          allowNull: false,
-        },
-        otherKey: "userId",
-      });
       Board.belongsTo(models.Workspace, {
         foreignKey: {
           type: DataTypes.INTEGER,
