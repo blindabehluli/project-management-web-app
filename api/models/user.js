@@ -26,16 +26,6 @@ module.exports = (sequelize) => {
         otherKey: "workspaceId",
       });
 
-      User.belongsToMany(models.Board, {
-        through: models.BoardMember,
-        foreignKey: {
-          type: DataTypes.INTEGER,
-          fieldName: "userId",
-          allowNull: false,
-        },
-        otherKey: "boardId",
-      });
-
       User.belongsToMany(models.Task, {
         through: models.TaskAssignee,
         foreignKey: {
@@ -118,7 +108,18 @@ module.exports = (sequelize) => {
     {
       sequelize, // We need to pass the connection instance
       modelName: "User", // We can choose the model name
-      tableName: "User" // We can choose the table name
+      tableName: "User", // We can choose the table name
+      hooks: {
+        // This hook is executed after a new User is created and saved to the database
+        async afterCreate(user, options) {
+          // Create a Workspace instance by default when a user is created
+          await sequelize.models.Workspace.create({
+            userId: user.id,
+            workspaceTitle: 'My workspace',
+            workspaceDescription: 'This is my workspace description'
+          }, { transaction: options.transaction });
+        },
+      },
     }
   );
 
