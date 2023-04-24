@@ -4,9 +4,11 @@ import NotFound from "./components/Layout/NotFound";
 import UserSignUp from "./components/User/UserSignUp";
 import UserSignIn from "./components/User/UserSignIn";
 import UserSignOut from "./components/User/UserSignOut";
-import Authenticated from "./components/Authenticated";
+import Dashboard from "./components/Dashboard";
 import PrivateRoutes from "./components/PrivateRoutes";
 import LandingPage from "./components/Layout/LandingPage";
+import Forbidden from "./components/Layout/Forbidden.";
+import Error from "./components/Layout/Error";
 
 const App = () => {
   return (
@@ -20,8 +22,11 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
 
           <Route element={<PrivateRoutes />} >
-            <Route path="/authenticated" element={<Authenticated />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Route>
+
+          <Route path="/forbidden" element={<Forbidden />} />
+          <Route path="/error" element={<Error />} />
           
         </Routes>
       </>
