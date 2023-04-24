@@ -85,7 +85,10 @@ export default class Data {
       const authenticatedUser = JSON.parse(cookie);
       setAuthenticatedUser(authenticatedUser);
 
-      const response = await this.getUser(authenticatedUser.emailAddress, authenticatedUser.password);
+      const response = await this.getUser(
+        authenticatedUser.emailAddress,
+        authenticatedUser.password
+      );
       if (response === null) {
         setAuthenticatedUser(null);
         Cookies.remove("authenticatedUser");
