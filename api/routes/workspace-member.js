@@ -43,23 +43,23 @@ router.get(
 router.post(
   "/workspaces/:workspaceId/members",
   authenticateUser,
-  workspaceAccess('admin'),
+  workspaceAccess("admin"),
   asyncHandler(async (req, res) => {
     try {
       const workspace = req.workspace;
       if (!workspace) {
         return res.status(404).json({ message: "Workspace not found" });
       }
-      
+
       const { role, email } = req.body;
       const user = await User.findOne({
         where: { emailAddress: email },
-      });      
-      
+      });
+
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      
+
       await WorkspaceMember.create({
         workspaceId: workspace.id,
         userId: user.id,
@@ -81,7 +81,7 @@ router.post(
 router.put(
   "/workspaces/:workspaceId/members/:memberId",
   authenticateUser,
-  workspaceAccess('admin'),
+  workspaceAccess("admin"),
   asyncHandler(async (req, res) => {
     try {
       const workspace = req.workspace;
@@ -118,32 +118,28 @@ router.put(
 router.delete(
   "/workspaces/:workspaceId/members/:memberId",
   authenticateUser,
-  workspaceAccess('admin'),
+  workspaceAccess("admin"),
   asyncHandler(async (req, res) => {
-    try {
-      const workspace = req.workspace;
-      if (!workspace) {
-        return res.status(404).json({ message: "Workspace not found" });
-      }
-
-      const member = await WorkspaceMember.findOne({
-        where: {
-          workspaceId: req.params.workspaceId,
-          id: req.params.memberId,
-        },
-      });
-
-      if (!member) {
-        return res.status(404).json({ message: "Workspace member not found" });
-      }
-
-      await member.destroy();
-
-      res.status(204).location(`/workspaces/${workspace.id}`).end();
-    } catch (error) {
-      throw error;
+    const workspace = req.workspace;
+    if (!workspace) {
+      return res.status(404).json({ message: "Workspace not found" });
     }
+
+    const member = await WorkspaceMember.findOne({
+      where: {
+        workspaceId: req.params.workspaceId,
+        id: req.params.memberId,
+      },
+    });
+
+    if (!member) {
+      return res.status(404).json({ message: "Workspace member not found" });
+    }
+
+    await member.destroy();
+
+    res.status(204).location(`/workspaces/${workspace.id}`).end();
   })
 );
 
-  module.exports = router;
+module.exports = router;

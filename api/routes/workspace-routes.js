@@ -1,14 +1,15 @@
 "use strict";
 const express = require("express");
-const { Workspace } = require("../models");
+const { Workspace, WorkspaceMember, User } = require("../models");
 const { asyncHandler } = require("../middleware/async-handler");
 const { authenticateUser } = require("../middleware/auth-user");
 const { workspaceAccess } = require("../middleware/workspace-access");
+const { errorHandler } = require("../middleware/error-handler");
 // Router instance
 const router = express.Router();
 
 /*
-  A /api/workspaces GET route that will return all workspaces
+  A /api/workspaces GET route that will return all workspaces a user is a member of
   with a 200 HTTP status code.
 */
 router.get(
@@ -16,19 +17,23 @@ router.get(
   authenticateUser,
   workspaceAccess("member"),
   asyncHandler(async (req, res) => {
-    const workspaces = await Workspace.findAll({
-      include: [
-        {
-          model: WorkspaceMember,
-          where: { userId: req.currentUser.id },
-        },
-      ],
+    const userId = req.currentUser.id;
+
+    // Find all workspace members where the user is a member
+    const workspaceMembers = await WorkspaceMember.findAll({
+      where: {
+        userId,
+      },
+      include: {
+        model: Workspace,
+        attributes: ["id", "workspaceTitle", "workspaceDescription", "userId"],
+      },
     });
-    if (workspaces) {
-      res.json(workspaces);
-    } else {
-      res.status(404).json({ message: "Workspace not found" });
-    }
+
+    // Extract the workspaces from the workspace members
+    const workspaces = workspaceMembers.map((wm) => wm.Workspace);
+
+    res.json(workspaces);
   })
 );
 
