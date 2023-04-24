@@ -80,8 +80,8 @@ module.exports = (sequelize) => {
             workspaceId: workspace.id,
             role: 'admin',
           }, { transaction: options.transaction });
-        }
-      }
+        },
+      },
     }
   );
 
