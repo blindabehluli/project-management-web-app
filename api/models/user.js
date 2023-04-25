@@ -8,6 +8,24 @@ module.exports = (sequelize) => {
     // Model association are defined here
 
     static associate(models) {
+      User.hasMany(models.Invitation, {
+        as: "sentInvitations",
+        foreignKey: {
+          type: DataTypes.INTEGER,
+          fieldName: "inviterUserId",
+          allowNull: false,
+        },
+      });
+      
+      User.hasMany(models.Invitation, {
+        as: "receivedInvitations",
+        foreignKey: {
+          type: DataTypes.INTEGER,
+          fieldName: "inviteeUserId",
+          allowNull: false,
+        },
+      });
+      
       User.hasMany(models.Workspace, {
         foreignKey: {
           type: DataTypes.INTEGER,

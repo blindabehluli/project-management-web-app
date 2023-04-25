@@ -5,13 +5,6 @@ module.exports = (sequelize) => {
     static associate(models) {
       // Model association are defined here
 
-      Board.hasMany(models.Invitation, {
-        foreignKey: {
-          type: DataTypes.INTEGER,
-          fieldName: "boardId",
-          allowNull: false,
-        },
-      });
       Board.hasMany(models.Column, {
         foreignKey: {
           type: DataTypes.INTEGER,
@@ -19,7 +12,7 @@ module.exports = (sequelize) => {
           allowNull: false,
         },
       });
-      Board.hasMany(models.BoardImage, {
+      Board.hasOne(models.BoardImage, {
         foreignKey: {
           type: DataTypes.INTEGER,
           fieldName: "boardId",

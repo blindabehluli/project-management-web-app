@@ -3,19 +3,23 @@ const { Model, DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   class Invitation extends Model {
     static associate(models) {
-      // Model association are defined here
-
-      Invitation.belongsTo(models.Workspace, {
+      Invitation.belongsTo(models.User, {
         foreignKey: {
-          type: DataTypes.INTEGER,
-          fieldName: "workspaceId",
+          fieldName: "inviterUserId",
           allowNull: false,
         },
+        as: "inviter",
       });
-      Invitation.belongsTo(models.Board, {
+      Invitation.belongsTo(models.User, {
         foreignKey: {
-          type: DataTypes.INTEGER,
-          fieldName: "boardId",
+          fieldName: "inviteeUserId",
+          allowNull: false,
+        },
+        as: "invitee",
+      });
+      Invitation.belongsTo(models.Workspace, {
+        foreignKey: {
+          fieldName: "workspaceId",
           allowNull: false,
         },
       });
@@ -24,20 +28,38 @@ module.exports = (sequelize) => {
 
   Invitation.init(
     {
-      // model attributes
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
       role: {
         type: DataTypes.ENUM("admin", "member"),
         allowNull: false,
-        defaultValue: "viewer",
+        defaultValue: "member",
         validate: {
           isIn: [["admin", "member"]],
         },
+      },
+      inviterUserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      inviteeUserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      workspaceId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
     },
     {
       sequelize,
       modelName: "Invitation",
-      tableName: "Invitation"
+      tableName: "Invitation",
+      timestamps: true,
     }
   );
 
