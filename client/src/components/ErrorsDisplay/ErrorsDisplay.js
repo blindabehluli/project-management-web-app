@@ -1,5 +1,3 @@
-import React from 'react';
-
 function ErrorsDisplay({ errors }) {
   let errorsDisplay = null;
 
