@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const { Workspace, WorkspaceMember, User } = require("../models");
+const { Workspace, WorkspaceMember } = require("../models");
 const { asyncHandler } = require("../middleware/async-handler");
 const { authenticateUser } = require("../middleware/auth-user");
 const { workspaceAccess } = require("../middleware/workspace-access");
