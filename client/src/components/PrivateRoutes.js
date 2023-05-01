@@ -1,20 +1,16 @@
-import React from "react";
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { Consumer } from "../context/AuthContext";
 
-// Component to handle Private Routes
-const PrivateRoutes = ({ children }) => {
+const PrivateRoutes = () => {
+  const { authUser } = useContext(UserContext);
   const location = useLocation();
 
-  return (
-    <Consumer>
-      {({ authenticatedUser }) => authenticatedUser ? (
-        <Outlet>{children}</Outlet>
-      ) : (
-        <Navigate to={{ pathname: "/signin", state: { from: location } }} replace />
-      )}
-    </Consumer>
-  );
-};
+  if (authUser) {
+    return <Outlet />
+  } else {
+    return <Navigate to="/signin" state={{from: location.pathname }} />
+  }
+}
 
-export default PrivateRoutes;
+export default PrivateRoutes

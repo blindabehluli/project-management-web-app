@@ -1,43 +1,44 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import withContext from "../../context/AuthContext";
+import { useContext, useRef, useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
 import ErrorsDisplay from "../ErrorsDisplay/ErrorsDisplay";
+import UserContext from '../../context/UserContext';
 
-function UserSignIn(props) {
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+function UserSignIn() {
+  const { actions } = useContext(UserContext)
   const navigate = useNavigate();
+  const location = useLocation();
 
-  function change(event) {
-    const name = event.target.name;
-    const value = event.target.value;
+  // State
+  const emailAddress= useRef(null);
+  const password = useRef(null);
+  const [errors, setErrors] = useState([]);
 
-    if (name === "emailAddress") {
-      setEmailAddress(value);
-    } else if (name === "password") {
-      setPassword(value);
+// Event Handlers
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  let from = '/dashboard';
+  if (location.state) {
+    from = location.state.from;
+  }
+
+  const credentials = {
+    emailAddress: emailAddress.current.value,
+    password: password.current.value
+  };
+
+  try {
+    const user = await actions.signIn(credentials);
+    if (user) {
+      navigate(from);
+    } else {
+      setErrors(["Sign-in was unsuccessful"]);
     }
+  } catch (error) {
+    console.log(error);
+    navigate("/error");
   }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    const { context } = props;
-
-    context.actions
-      .signIn(emailAddress, password)
-      .then((user) => {
-        if (user === null) {
-          setErrors(["Sign-in was unsuccessful"]);
-        } else {
-          navigate("/dashboard");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+}
 
   return (
     <section className="bg-gray-50">
@@ -56,12 +57,12 @@ function UserSignIn(props) {
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                <input type="email" name="emailAddress" id="email" value={emailAddress} onChange={change} 
+                <input type="email" name="emailAddress" id="email" ref={emailAddress}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" />
               </div>
               <div>
                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                <input type="password" name="password" value={password} onChange={change} id="password" placeholder="••••••••"
+                <input type="password" name="password" ref={password} id="password" placeholder="••••••••"
                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" />
               </div>
               <div className="flex flex-col space-y-4">
@@ -78,4 +79,4 @@ function UserSignIn(props) {
   );
 }
 
-export default withContext(UserSignIn);
+export default UserSignIn;
