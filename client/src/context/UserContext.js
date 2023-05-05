@@ -18,7 +18,7 @@ export const UserProvider = (props) => {
       setAuthUser(user);
       Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
       setCredentials(credentials);
-      Cookies.set("credentials", JSON.stringify(credentials), { expires: 1 });
+      Cookies.set("credentials", JSON.stringify(credentials), { expires: 1, secure: true, sameSite: 'strict' });
       return user;
     } else if (response.status === 401) {
       return null;
@@ -28,7 +28,7 @@ export const UserProvider = (props) => {
   };
 
   const signOut = () => {
-        // remove state and cookies
+    // remove state and cookies
     setAuthUser(null);
     Cookies.remove("authenticatedUser");
 
