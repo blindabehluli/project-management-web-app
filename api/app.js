@@ -4,13 +4,16 @@ const express = require("express");
 const morgan = require("morgan");
 
 // Declare route variables
-const userRoutes = require('./routes/user-routes');
-const workspaceRoutes = require('./routes/workspace-routes');
-const boardRoutes = require('./routes/board-routes');
+const userRoutes = require("./routes/user-routes");
+const workspaceRoutes = require("./routes/workspace-routes");
+const boardRoutes = require("./routes/board-routes");
 const workspaceMemberRoutes = require("./routes/workspace-member");
+const columnRoutes = require("./routes/column-routes");
+const taskRoutes = require("./routes/task-routes");
+const subtaskRoutes = require("./routes/subtask-routes");
 
 const { sequelize } = require("./models");
-const cors = require('cors');
+const cors = require("cors");
 
 // Create the Express app.
 const app = express();
@@ -29,6 +32,9 @@ app.use("/api", userRoutes);
 app.use("/api", workspaceRoutes);
 app.use("/api", workspaceMemberRoutes);
 app.use("/api", boardRoutes);
+app.use("/api", columnRoutes);
+app.use("/api", taskRoutes);
+app.use("/api", subtaskRoutes);
 
 // Setup a friendly greeting for the root route.
 app.get("/", (req, res) => {
