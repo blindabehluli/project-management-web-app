@@ -1,15 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-
-import NotFound from "./components/Layout/NotFound";
+import NotFound from "./components/ErrorPages/NotFound";
+import LandingPage from "./components/LandingPage";
+import Forbidden from "./components/ErrorPages/Forbidden";
+import Error from "./components/ErrorPages/Error";
 import UserSignUp from "./components/User/UserSignUp";
 import UserSignIn from "./components/User/UserSignIn";
 import UserSignOut from "./components/User/UserSignOut";
 import Dashboard from "./components/Dashboard";
 import PrivateRoutes from "./components/PrivateRoutes";
-import LandingPage from "./components/Layout/LandingPage";
-import Forbidden from "./components/Layout/Forbidden.";
-import Error from "./components/Layout/Error";
 
 const App = () => {
   return (

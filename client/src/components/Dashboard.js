@@ -1,18 +1,24 @@
 import React from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import Main from "./Main";
+import Board from "./Board";
+import { useState } from "react";
 
-function Test() {
+function Dashboard() {
+  const [isBoardFull, setIsBoardFull] = useState(true);
+
+  const handleToggleSidebar = (isSidebarHidden) => {
+    setIsBoardFull(!isSidebarHidden);
+  };
   return (
     <div className="flex flex-col h-screen">
       <Header />
       <main className="flex w-full h-full overflow-y-auto relative bg-[#F4F6F8]">
-        <Sidebar />
-        <Main />
+      <Sidebar onToggleSidebar={handleToggleSidebar} />
+      <Board isBoardFull={isBoardFull} />
       </main>
     </div>
   );
 }
 
-export default Test;
+export default Dashboard;

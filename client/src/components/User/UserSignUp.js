@@ -2,7 +2,7 @@ import { useContext, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../utils/apiHelper';
 
-import ErrorsDisplay from '../ErrorsDisplay/ErrorsDisplay';
+import ErrorsDisplay from "../ErrorsDisplay";
 import UserContext from '../../context/UserContext';
 
 const UserSignUp = () => {

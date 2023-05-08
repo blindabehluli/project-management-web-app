@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-import ErrorsDisplay from "../ErrorsDisplay/ErrorsDisplay";
+import ErrorsDisplay from "../ErrorsDisplay";
 import UserContext from '../../context/UserContext';
 
 function UserSignIn() {
