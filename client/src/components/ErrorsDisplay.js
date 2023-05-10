@@ -3,7 +3,7 @@ function ErrorsDisplay({ errors }) {
 
   if (errors.length) {
     errorsDisplay = (
-      <div className="text-rose-500">
+      <div className="text-rose-500 mb-4">
         <ul>
           {errors.map((error, i) => <li key={i}>{error}</li>)}
         </ul>
