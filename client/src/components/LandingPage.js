@@ -32,7 +32,7 @@ const LandingPage = () => {
           <div className="flex justify-center border-y border-dashed border-[#EAEAEA]">
             <div className="flex justify-center space-x-4 border-x border-dashed border-[#EAEAEA] p-10">
               <Link to="/signup">
-                <button className="text-white bg-[#2b84ff] asff border hover:border-black hover:bg-white hover:text-black p-3 rounded-lg transition ease-in-out duration-200">
+                <button className="text-white bg-black border hover:border-black hover:bg-white hover:text-black p-3 rounded-lg transition ease-in-out duration-200">
                   Get Started
                 </button>
               </Link>
