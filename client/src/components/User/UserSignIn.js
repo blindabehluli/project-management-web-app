@@ -17,7 +17,7 @@ function UserSignIn() {
 // Event Handlers
 const handleSubmit = async (event) => {
   event.preventDefault();
-  let from = '/dashboard';
+  let from = '/workspace';
   if (location.state) {
     from = location.state.from;
   }

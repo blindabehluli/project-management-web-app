@@ -32,7 +32,7 @@ const UserSignUp = () => {
       if (response.status === 201) {
         console.log(`${user.firstName} is successfully signed up and authenticated!`);
         await actions.signIn(user);
-        navigate("/dashboard");
+        navigate("/workspace");
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);
