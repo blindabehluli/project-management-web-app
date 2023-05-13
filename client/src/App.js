@@ -9,6 +9,8 @@ import UserSignIn from "./components/User/UserSignIn";
 import UserSignOut from "./components/User/UserSignOut";
 import Dashboard from "./components/Dashboard";
 import PrivateRoutes from "./components/PrivateRoutes";
+import Workspace from "./components/Workspace/Workspace";
+import WorkspaceMember from "./components/Workspace/WorkspaceMember";
 
 const App = () => {
   return (
@@ -20,7 +22,9 @@ const App = () => {
       <Route path="*" element={<NotFound />} />
 
       <Route element={<PrivateRoutes />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/workspace" element={<Workspace /> } />
+        <Route path="/workspace/:workspaceId" element={<Dashboard />} />
+        <Route path="/workspace/:workspaceId/members" element={<WorkspaceMember />} />
       </Route>
 
       <Route path="/forbidden" element={<Forbidden />} />
