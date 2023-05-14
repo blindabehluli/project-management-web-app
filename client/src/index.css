@@ -102,9 +102,12 @@ header {
   min-width: 18.75rem;
   border-right: 1px solid #e4ebfa;
   border-bottom: 1px solid #e4ebfa;
-  padding: 2rem 0 3.375rem 2rem;
   cursor: pointer;
   background-color: white;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
 }
 
 .header-content {
