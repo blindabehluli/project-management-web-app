@@ -1,11 +1,12 @@
 import { useRef, useEffect, useContext } from "react";
 import UserContext from "../../context/UserContext";
 import { api } from "../../utils/apiHelper";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function DeleteBoard({ board, onClose }) {
   const modalRef = useRef(null);
-
+  const navigate = useNavigate();
+  
   const { credentials } = useContext(UserContext);
   const { workspaceId } = useParams(); // Access the workspaceId from params
 
@@ -35,7 +36,11 @@ function DeleteBoard({ board, onClose }) {
         onClose(); // Close the modal after successful deletion
       } else if (response.status === 400) {
         const data = await response.json();
-        console.log(data.error)
+        console.log(data.error);
+      } else if (response.status === 403) {
+        navigate("/forbidden");
+      } else if (response.status === 500) {
+        navigate("/error");
       } else {
         throw new Error("Failed to delete the board");
       }
