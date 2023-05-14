@@ -10,7 +10,7 @@ import UserSignOut from "./components/User/UserSignOut";
 import Dashboard from "./components/Dashboard";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Workspace from "./components/Workspace/Workspace";
-import WorkspaceMember from "./components/Workspace/WorkspaceMember";
+import WorkspaceMember from "./components/WorkspaceMember/WorkspaceMember";
 
 const App = () => {
   return (
