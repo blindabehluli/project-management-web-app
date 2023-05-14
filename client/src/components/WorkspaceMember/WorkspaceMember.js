@@ -92,10 +92,10 @@ const WorkspaceMember = () => {
             {workspaceMembers.map((member) => (
               <tr
                 key={member.id}
-                className={`bg-white border-b ${
+                className={`border-b ${
                   member.User.emailAddress === credentials.emailAddress
                     ? "bg-primary-200" // If the member id matched the authenticated user id highlight the tr
-                    : ""
+                    : "bg-white"
                 }`}
               >
                 <th
