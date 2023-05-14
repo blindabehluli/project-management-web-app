@@ -26,7 +26,7 @@ router.get(
       },
       include: {
         model: Workspace,
-        attributes: ["id", "workspaceTitle", "workspaceDescription", "userId"],
+        attributes: ["id", "workspaceTitle", "workspaceDescription", "workspaceLogoUrl", "userId"],
       },
     });
 
@@ -63,6 +63,7 @@ router.get(
 router.post(
   "/workspaces",
   authenticateUser,
+  workspaceAccess("admin"),
   asyncHandler(async (req, res) => {
     try {
       const workspace = await Workspace.create({
