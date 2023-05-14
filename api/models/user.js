@@ -134,7 +134,7 @@ module.exports = (sequelize) => {
           await sequelize.models.Workspace.create({
             userId: user.id,
             workspaceTitle: 'My workspace',
-            workspaceDescription: 'This is my workspace description'
+            workspaceDescription: 'This is my workspace description',
           }, { transaction: options.transaction });
         },
       },
