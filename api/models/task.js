@@ -13,38 +13,12 @@ module.exports = (sequelize) => {
         },
       });
 
-      Task.hasMany(models.Attachment, {
-        foreignKey: {
-          type: DataTypes.INTEGER,
-          fieldName: "taskId",
-          allowNull: false,
-        },
-      });
-
-      Task.hasMany(models.Comment, {
-        foreignKey: {
-          type: DataTypes.INTEGER,
-          fieldName: "taskId",
-          allowNull: false,
-        },
-      });
-
       Task.belongsTo(models.Column, {
         foreignKey: {
           type: DataTypes.INTEGER,
           fieldName: "columnId",
           allowNull: false,
         },
-      });
-
-      Task.belongsToMany(models.User, {
-        through: models.TaskAssignee,
-        foreignKey: {
-          type: DataTypes.INTEGER,
-          fieldName: "taskId",
-          allowNull: false,
-        },
-        otherKey: "userId",
       });
     }
   }

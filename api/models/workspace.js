@@ -4,14 +4,6 @@ module.exports = (sequelize) => {
   class Workspace extends Model {
     static associate(models) {
       // Model association are defined here
-
-      Workspace.hasMany(models.Invitation, {
-        foreignKey: {
-          type: DataTypes.INTEGER,
-          fieldName: "workspaceId",
-          allowNull: false,
-        },
-      });
       Workspace.hasMany(models.Board, {
         foreignKey: {
           type: DataTypes.INTEGER,
