@@ -11,6 +11,7 @@ const workspaceMemberRoutes = require("./routes/workspace-member");
 const columnRoutes = require("./routes/column-routes");
 const taskRoutes = require("./routes/task-routes");
 const subtaskRoutes = require("./routes/subtask-routes");
+const boardImage = require("./routes/board-image");
 
 const { sequelize } = require("./models");
 const cors = require("cors");
@@ -32,6 +33,7 @@ app.use("/api", userRoutes);
 app.use("/api", workspaceRoutes);
 app.use("/api", workspaceMemberRoutes);
 app.use("/api", boardRoutes);
+app.use("/api", boardImage);
 app.use("/api", columnRoutes);
 app.use("/api", taskRoutes);
 app.use("/api", subtaskRoutes);
