@@ -55,7 +55,7 @@ function EditColumn({ board, column, onClose }) {
         const data = await response.json();
         setErrors(data.errors);
       } else {
-        throw new Error("Failed to update the board");
+        throw new Error("Failed to update the column");
       }
     } catch (error) {
       console.error(error);
@@ -77,7 +77,7 @@ function EditColumn({ board, column, onClose }) {
         const data = await response.json();
         console.log(data.error);
       } else {
-        throw new Error("Failed to delete the board");
+        throw new Error("Failed to delete the column");
       }
     } catch (error) {
       console.error(error);
@@ -90,7 +90,7 @@ function EditColumn({ board, column, onClose }) {
         <div className="modal-add-new">
           <div className="modal-add-new mb-4">Edit Column</div>
           <ErrorsDisplay errors={errors} />
-          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-4 md:space-y-6">
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Status</div>
               <input
