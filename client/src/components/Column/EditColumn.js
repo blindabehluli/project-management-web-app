@@ -4,6 +4,16 @@ import { api } from "../../utils/apiHelper";
 import ErrorsDisplay from "../ErrorsDisplay";
 import { useParams } from "react-router-dom";
 
+const colorOptions = [
+  { name: "Red", color: "#C66759" },
+  { name: "Orange", color: "#E1B205" },
+  { name: "Green", color: "#51AC84" },
+  { name: "Light Blue", color: "#5EA7AE" },
+  { name: "Blue", color: "#5384CB" },
+  { name: "Dark Gray", color: "#545E6E" },
+  { name: "Purple", color: "#857BC1" },
+];
+
 function EditColumn({ board, column, onClose }) {
   const modalRef = useRef(null);
   const columnStatus = useRef(null);
@@ -102,15 +112,22 @@ function EditColumn({ board, column, onClose }) {
             </div>
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Status Color</div>
-              <input
-                className="modal-input"
-                type="text"
-                placeholder="e.g #12f31"
-                ref={columnStatusColor}
-              />
+              <select className="modal-input" ref={columnStatusColor}>
+                <option value="" disabled defaultValue>
+                  Select a color
+                </option>
+                {colorOptions.map((option) => (
+                  <option key={option.color} value={option.color}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="flex justify-between">
-              <button className="button button-small mr-4" onClick={handleSubmit}>
+              <button
+                className="button button-small mr-4"
+                onClick={handleSubmit}
+              >
                 Update Column
               </button>
               <button

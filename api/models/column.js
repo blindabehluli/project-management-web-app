@@ -43,7 +43,7 @@ module.exports = (sequelize) => {
         validate: {
           is: {
             args: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
-            msg: "Please provide a valid hex color code for the column label.",
+            msg: "Please select the column status color.",
           },
         },
       },

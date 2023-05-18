@@ -13,6 +13,16 @@ export default function CreateColumn({ onClose, selectedBoard }) {
   const { credentials } = useContext(UserContext);
   const { workspaceId } = useParams(); // Access the workspaceId from params
 
+  const colorOptions = [
+    { name: "Red", color: "#C66759" },
+    { name: "Orange", color: "#E1B205" },
+    { name: "Green", color: "#51AC84" },
+    { name: "Light Blue", color: "#5EA7AE" },
+    { name: "Blue", color: "#5384CB" },
+    { name: "Dark Gray", color: "#545E6E" },
+    { name: "Purple", color: "#857BC1" },
+  ];
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -36,17 +46,17 @@ export default function CreateColumn({ onClose, selectedBoard }) {
     e.preventDefault();
 
     const column = {
-        columnStatus: columnStatus.current.value,
-        columnStatusColor: columnStatusColor.current.value
-    }
+      columnStatus: columnStatus.current.value,
+      columnStatusColor: columnStatusColor.current.value,
+    };
 
     try {
-        const response = await api(
-            `/workspaces/${workspaceId}/boards/${selectedBoard.id}/columns`,
-            "POST",
-            column,
-            credentials
-          );
+      const response = await api(
+        `/workspaces/${workspaceId}/boards/${selectedBoard.id}/columns`,
+        "POST",
+        column,
+        credentials
+      );
 
       if (response.status === 201) {
         onClose(); // Close the modal after successful submission
@@ -79,12 +89,16 @@ export default function CreateColumn({ onClose, selectedBoard }) {
             </div>
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Status Color</div>
-              <input
-                className="modal-input"
-                type="text"
-                placeholder="e.g #12f31"
-                ref={columnStatusColor}
-              />
+              <select className="modal-input" ref={columnStatusColor}>
+                <option value="" disabled defaultValue>
+                  Select a color
+                </option>
+                {colorOptions.map((option) => (
+                  <option key={option.color} value={option.color}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="modal-input-wrapper">
               <button type="submit" className="button button-small">
