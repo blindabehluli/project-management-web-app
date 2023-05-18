@@ -39,15 +39,10 @@ function CreateWorkspace({ onClose }) {
     const workspace = {
       workspaceTitle: workspaceTitle.current.value,
       workspaceDescription: workspaceDescription.current.value,
-      workspaceLogoUrl: workspaceLogoUrl.current.value
+      workspaceLogoUrl: workspaceLogoUrl.current.value,
     };
     try {
-      const response = await api(
-        `/workspaces`,
-        "POST",
-        workspace,
-        credentials
-      );
+      const response = await api(`/workspaces`, "POST", workspace, credentials);
       if (response.status === 201) {
         onClose(); // Close the modal after successful submission
       } else if (response.status === 400) {
@@ -79,12 +74,12 @@ function CreateWorkspace({ onClose }) {
             </div>
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Description</div>
-              <input
+              <textarea
                 className="modal-input"
                 type="text"
                 placeholder="This is a description for my workspace..."
                 ref={workspaceDescription}
-              />
+              ></textarea>
             </div>
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Logo Url</div>

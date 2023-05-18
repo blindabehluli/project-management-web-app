@@ -72,7 +72,7 @@ function EditBoard({ board, onClose }) {
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Title</div>
               <input
-                className="modal-input"
+                className="modal-input-edit"
                 type="text"
                 placeholder="Design System..."
                 ref={boardTitle}
@@ -80,12 +80,12 @@ function EditBoard({ board, onClose }) {
             </div>
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Description</div>
-              <input
-                className="modal-input"
+              <textarea
+                className="text-area"
                 type="text"
                 placeholder="This is a board for the design system of the web app..."
                 ref={boardDescription}
-              />
+              ></textarea>
             </div>
             <div className="modal-input-wrapper">
               <button type="submit" className="button button-small">

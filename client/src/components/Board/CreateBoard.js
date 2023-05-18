@@ -77,12 +77,13 @@ function CreateBoard({ onClose }) {
             </div>
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Description</div>
-              <input
-                className="modal-input"
+              <textarea
+                className="text-area"
+                rows="4"
                 type="text"
                 placeholder="This is a board for the design system of the web app..."
                 ref={boardDescription}
-              />
+              ></textarea>
             </div>
             <div className="modal-input-wrapper">
               <button type="submit" className="button button-small">
