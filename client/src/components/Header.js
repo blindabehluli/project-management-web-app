@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import optionsIcon from "../assets/three-dots.svg";
 import EditBoard from "./Board/EditBoard";
 import DeleteBoard from "./Board/DeleteBoard";
+import CreateTask from "./Task/CreateTask";
 import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 import { useParams, Link } from "react-router-dom";
@@ -10,6 +11,7 @@ export default function Header({ selectedBoard }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEditBoardOpen, setIsEditBoardOpen] = useState(false);
   const [isDeleteBoardOpen, setIsDeleteBoardOpen] = useState(false);
+  const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
   const [workspaceTitle, setWorkspaceTitle] = useState("");
   const [workspaceLogoUrl, setWorkspaceLogoUrl] = useState("");
 
@@ -39,6 +41,14 @@ export default function Header({ selectedBoard }) {
     setIsDeleteBoardOpen(false);
   };
 
+  const handleCreateTask = () => {
+    setIsCreateTaskOpen(true);
+  };
+
+  const handleCloseCreateTask = () => {
+    setIsCreateTaskOpen(false);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -53,7 +63,6 @@ export default function Header({ selectedBoard }) {
   }, []);
 
   useEffect(() => {
-    // Get the current workspace details from the API
     const fetchWorkspaceDetails = async () => {
       try {
         const response = await api(
@@ -64,7 +73,6 @@ export default function Header({ selectedBoard }) {
         );
         if (response.status === 200) {
           const workspace = await response.json();
-          // Set the form values with the current workspace details
           setWorkspaceTitle(workspace.workspaceTitle);
           setWorkspaceLogoUrl(workspace.workspaceLogoUrl);
         } else {
@@ -80,7 +88,7 @@ export default function Header({ selectedBoard }) {
   return (
     <>
       <header>
-      <Link to="/workspace" className="header-logo">
+        <Link to="/workspace" className="header-logo">
           <picture>
             {workspaceLogoUrl ? (
               <img
@@ -99,7 +107,9 @@ export default function Header({ selectedBoard }) {
         <div className="header-content">
           <h1 className="header-title">{selectedBoard?.boardTitle}</h1>
           <div className="header-buttons">
-            <button className="button">+ Add New Task</button>
+            <button className="button" onClick={handleCreateTask}>
+              + Add New Task
+            </button>
             {selectedBoard && (
               <div className="dropdown" ref={dropdownRef}>
                 <button
@@ -131,6 +141,12 @@ export default function Header({ selectedBoard }) {
           </div>
         </div>
       </header>
+      {isCreateTaskOpen && (
+        <CreateTask
+          onClose={handleCloseCreateTask}
+          selectedBoard={selectedBoard}
+        />
+      )}
       {isEditBoardOpen && (
         <EditBoard board={selectedBoard} onClose={handleCloseEditBoard} />
       )}
