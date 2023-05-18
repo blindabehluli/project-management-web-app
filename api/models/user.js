@@ -8,7 +8,6 @@ module.exports = (sequelize) => {
     // Model association are defined here
 
     static associate(models) {
-            
       User.hasMany(models.Workspace, {
         foreignKey: {
           type: DataTypes.INTEGER,
@@ -104,11 +103,16 @@ module.exports = (sequelize) => {
         // This hook is executed after a new User is created and saved to the database
         async afterCreate(user, options) {
           // Create a Workspace instance by default when a user is created
-          await sequelize.models.Workspace.create({
-            userId: user.id,
-            workspaceTitle: 'My workspace',
-            workspaceDescription: 'This is my workspace description',
-          }, { transaction: options.transaction });
+          await sequelize.models.Workspace.create(
+            {
+              userId: user.id,
+              workspaceTitle: "My workspace",
+              workspaceDescription: "This is my workspace description",
+              workspaceLogoUrl:
+                "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg",
+            },
+            { transaction: options.transaction }
+          );
         },
       },
     }
