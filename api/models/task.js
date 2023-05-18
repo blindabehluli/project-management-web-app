@@ -43,19 +43,20 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
       taskPriority: {
-        type: DataTypes.ENUM("low", "mid", "high"),
-        allowNull: false,
-        defaultValue: "low",
-        validate: {
-          isIn: {
-            args: [["low", "mid", "high"]],
-            msg: "Task priority must be low, mid, or high.",
-          },
-        },
+        type: DataTypes.ENUM("Low", "Medium", "High"),
+        allowNull: true,
       },
       taskLabel: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Task label is required.",
+          },
+          notEmpty: {
+            msg: "Please provide the task label.",
+          },
+        },
       },
     },
     {
