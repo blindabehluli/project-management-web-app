@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import { api } from "../../utils/apiHelper";
 import AddWorkspaceMember from "./AddWorkspaceMember";
@@ -51,13 +51,16 @@ const WorkspaceMember = () => {
   return (
     <div className="container mx-auto mt-32 px-24">
       <div>
-        <h1>
-          <span className="text-primary-600">
-            {workspaceMembers.length > 0 &&
-              workspaceMembers[0].Workspace.workspaceTitle}
-          </span>{" "}
-          Members
-        </h1>
+        <div className="flex justify-between items-center">
+          <h1>
+            <span className="text-primary-600">
+              {workspaceMembers.length > 0 &&
+                workspaceMembers[0].Workspace.workspaceTitle}
+            </span>{" "}
+            Members
+          </h1>
+          <Link to="/workspace">Go Back</Link>
+        </div>
         <p className="mb-8">
           {workspaceMembers.length > 0 &&
             workspaceMembers[0].Workspace.workspaceDescription}

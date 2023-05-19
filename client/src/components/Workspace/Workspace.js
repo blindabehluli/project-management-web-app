@@ -49,6 +49,7 @@ const Workspace = () => {
         <div className="workspace-body">
           <div className="workspace-title">
             Workspaces for {credentials.emailAddress}
+            <Link to="/signout" className="text-primary-600 hover:underline">Sign out</Link>
           </div>
           <div className="workspace-list divide-y">
             {workspaces.map((workspace) => (
@@ -102,7 +103,7 @@ const Workspace = () => {
           </div>
           <div className="workspace-footer">
             <button
-              className="workspace-button-secondary"
+              className="workspace-button-secondary p-4"
               onClick={() => setIsCreateWorkspaceOpen(true)}
             >
               <span className="font-normal text-black">

@@ -30,7 +30,7 @@ export default function DeleteBoardImage({ workspaceId, board, onClose }) {
 
   return (
     <button
-      className="text-white bg-black border hover:border-black hover:bg-white hover:text-black py-2 px-3 rounded-lg transition ease-in-out duration-200"
+      className="button-cancel hover:primary-700" style={{width: "auto"}}
       onClick={handleDeleteBoardImage}
     >
       Remove Background

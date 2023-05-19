@@ -28,7 +28,7 @@ export default function PhotoGridItem({
       onClick={handleClick}
     >
       <img
-        className="rounded-lg w-[252px] h-[168px] bg-cover cursor-pointer"
+        className="rounded-lg w-[252px] h-[168px] bg-center bg-cover cursor-pointer"
         src={photo.urls.regular}
         alt={photo.alt_description}
         style={{ opacity: hoveredPhoto === photo ? 0.5 : 1 }}

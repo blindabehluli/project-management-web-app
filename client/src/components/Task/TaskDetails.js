@@ -59,7 +59,7 @@ export default function TaskDetails({ onClose, board, task, columns }) {
 
   const onChangeStatus = async (event) => {
     const selectedColumnId = event.target.value;
-  
+
     try {
       // Make an API call to update the task's columnId
       const response = await api(
@@ -68,11 +68,11 @@ export default function TaskDetails({ onClose, board, task, columns }) {
         { columnId: selectedColumnId },
         credentials
       );
-  
+
       if (response.status === 204) {
         onClose();
         // Task status updated successfully
-      }  else if (response.status === 400) {
+      } else if (response.status === 400) {
         const data = await response.json();
         console.log(data.error);
       } else {
@@ -81,7 +81,7 @@ export default function TaskDetails({ onClose, board, task, columns }) {
     } catch (error) {
       console.error(error);
     }
-  };  
+  };
 
   return (
     <>
@@ -131,14 +131,18 @@ export default function TaskDetails({ onClose, board, task, columns }) {
                     <h3 className="card-details-text">{task.taskLabel}</h3>
                   </div>
                 )}
-                <div className="flex justify-between space-x-8">
-                  <h3 className="card-details-text text-[#828fa3]">Priority</h3>
-                  <h3
-                    className={`card-details-text px-2 rounded-md ${getPriorityClasses()}`}
-                  >
-                    {task.taskPriority}
-                  </h3>
-                </div>
+                {task.taskPriority && (
+                  <div className="flex justify-between space-x-8">
+                    <h3 className="card-details-text text-[#828fa3]">
+                      Priority
+                    </h3>
+                    <h3
+                      className={`card-details-text px-2 rounded-md ${getPriorityClasses()}`}
+                    >
+                      {task.taskPriority}
+                    </h3>
+                  </div>
+                )}
               </div>
               <div className="modal-input-wrapper mt-16">
                 <div className="modal-input-label">Current Status</div>
