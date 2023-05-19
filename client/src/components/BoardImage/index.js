@@ -14,7 +14,7 @@ import { handlePhotoClick } from "./UpdateBoardImage";
 import UserContext from "../../context/UserContext";
 
 const AccessKey = "j_wh1cRHUm3GFGOOjLhnhtGp5squVwmbSC3zbfm_2pI";
-const perPage = 8; // Number of photos to fetch per page
+const perPage = 9; // Number of photos to fetch per page
 
 export default function BoardImage({ board, onClose }) {
   const [photos, setPhotos] = useState([]);
