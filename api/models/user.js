@@ -106,7 +106,7 @@ module.exports = (sequelize) => {
           await sequelize.models.Workspace.create(
             {
               userId: user.id,
-              workspaceTitle: "My workspace",
+              workspaceTitle: "Blinda & Getoar",
               workspaceDescription: "This is my workspace description",
               workspaceLogoUrl:
                 "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg",
