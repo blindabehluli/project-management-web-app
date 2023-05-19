@@ -12,6 +12,7 @@ import TaskDetails from "./Task/TaskDetails";
 export default function Board({ isBoardFull, selectedBoard }) {
   const [isCreateColumnOpen, setIsCreateColumnOpen] = useState(false);
   const [columns, setColumns] = useState([]);
+  const [boardImage, setBoardImage] = useState("");
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
   const [showEditTaskModal, setShowEditTaskModal] = useState(false);
@@ -95,8 +96,42 @@ export default function Board({ isBoardFull, selectedBoard }) {
     fetchColumns();
   }, [credentials, selectedBoard, workspaceId]);
 
+  useEffect(() => {
+    const fetchBoardImages = async () => {
+      try {
+        const response = await api(
+          `/workspaces/${workspaceId}/boards/${selectedBoard.id}/images`,
+          "GET",
+          null,
+          credentials
+        );
+        if (response.status === 200) {
+          const boardImage = await response.json();
+          setBoardImage(boardImage);
+        } else {
+          throw new Error("Failed to fetch board images");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchBoardImages();
+  }, [credentials, selectedBoard, workspaceId]);
+
   return (
-    <div className={`${isBoardFull ? "board" : "board-full"}`}>
+    <div
+      className={`${isBoardFull ? "board" : "board-full"}`}
+      style={
+        boardImage
+          ? {
+              backgroundImage: `url('${boardImage.boardImageUrl}')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : null
+      }
+    >
       {columns.map((column) => (
         <div key={column.id} className="column">
           <div className="column-header">
@@ -105,7 +140,9 @@ export default function Board({ isBoardFull, selectedBoard }) {
                 className="column-label"
                 style={{ backgroundColor: column.columnStatusColor }}
               ></span>
-              <span className="column-title">{column.columnStatus} ({column.tasks.length})</span>
+              <span className="column-title">
+                {column.columnStatus} ({column.tasks.length})
+              </span>
             </div>
             <img
               className="cursor-pointer"
@@ -158,4 +195,4 @@ export default function Board({ isBoardFull, selectedBoard }) {
       )}
     </div>
   );
-} 
+}

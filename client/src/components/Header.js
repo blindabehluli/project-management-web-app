@@ -3,6 +3,7 @@ import optionsIcon from "../assets/three-dots.svg";
 import EditBoard from "./Board/EditBoard";
 import DeleteBoard from "./Board/DeleteBoard";
 import CreateTask from "./Task/CreateTask";
+import BoardImage from "./BoardImage";
 import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 import { useParams, Link } from "react-router-dom";
@@ -12,6 +13,7 @@ export default function Header({ selectedBoard }) {
   const [isEditBoardOpen, setIsEditBoardOpen] = useState(false);
   const [isDeleteBoardOpen, setIsDeleteBoardOpen] = useState(false);
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
+  const [isBoardImageOpen, setIsBoardImageOpen] = useState(false);
   const [workspaceTitle, setWorkspaceTitle] = useState("");
   const [workspaceLogoUrl, setWorkspaceLogoUrl] = useState("");
 
@@ -47,6 +49,15 @@ export default function Header({ selectedBoard }) {
 
   const handleCloseCreateTask = () => {
     setIsCreateTaskOpen(false);
+  };
+
+  const handleOpenBoardImage = () => {
+    setIsBoardImageOpen(true);
+    setIsDropdownOpen(false);
+  };
+  
+  const handleCloseBoardImage = () => {
+    setIsBoardImageOpen(false);
   };
 
   useEffect(() => {
@@ -120,9 +131,13 @@ export default function Header({ selectedBoard }) {
                 </button>
                 {isDropdownOpen && (
                   <div className="dropdown-wrapper">
+                    <button type="button" className="dropdown-text" onClick={handleOpenBoardImage}>
+                      Background Image
+                    </button>
+
                     <button
                       type="button"
-                      className="dropdown-text"
+                      className="dropdown-text mt-2"
                       onClick={handleEditBoard}
                     >
                       Edit Board
@@ -153,6 +168,7 @@ export default function Header({ selectedBoard }) {
       {isDeleteBoardOpen && (
         <DeleteBoard board={selectedBoard} onClose={handleCloseDeleteBoard} />
       )}
+      {isBoardImageOpen && <BoardImage board={selectedBoard} onClose={handleCloseBoardImage} />}
     </>
   );
 }
