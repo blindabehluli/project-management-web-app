@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const { Workspace, Board, BoardImage } = require("../models");
+const { Board, BoardImage } = require("../models");
 const { asyncHandler } = require("../middleware/async-handler");
 const { authenticateUser } = require("../middleware/auth-user");
 const { workspaceAccess } = require("../middleware/workspace-access");
@@ -11,7 +11,7 @@ const { errorHandler } = require("../middleware/error-handler");
 const router = express.Router();
 
 /*
-  A /api/workspaces/:workspaceId/boards/:boardId/images GET route that will return all images for a specific board
+  A /api/workspaces/:workspaceId/boards/:boardId/images GET route that will return the image for a specific board
   with a 200 HTTP status code.
 */
 router.get(
@@ -27,32 +27,8 @@ router.get(
       return res.status(404).json({ message: "Board not found" });
     }
 
-    const boardImages = await board.getBoardImages();
+    const boardImages = await board.getBoardImage();
     res.json(boardImages);
-  })
-);
-
-/*
-  A /api/workspaces/:workspaceId/boards/:boardId/images/:id GET route that will return a specific image for a specific board
-  with a 200 HTTP status code.
-*/
-router.get(
-  "/workspaces/:workspaceId/boards/:boardId/images/:id",
-  authenticateUser,
-  workspaceAccess("member"),
-  asyncHandler(async (req, res) => {
-    const boardImage = await BoardImage.findOne({
-      where: {
-        id: req.params.id,
-        boardId: req.params.boardId,
-      },
-    });
-
-    if (!boardImage) {
-      return res.status(404).json({ message: "Image not found" });
-    }
-
-    res.json(boardImage);
   })
 );
 
@@ -89,18 +65,19 @@ router.post(
 );
 
 /*
-  A /api/workspaces/:workspaceId/boards/:boardId/images/:id DELETE route that will delete a specific image for a specific board
-  with a 204 HTTP status code and no content.
+  A /api/workspaces/:workspaceId/boards/:boardId/images PUT route that will update an image for a specific board
+  with a 200 HTTP status code.
 */
-router.delete(
-  "/workspaces/:workspaceId/boards/:boardId/images/:id",
+router.put(
+  "/workspaces/:workspaceId/boards/:boardId/images",
   authenticateUser,
   workspaceAccess("member"),
   asyncHandler(async (req, res) => {
+    const { boardId } = req.params;
+
     const boardImage = await BoardImage.findOne({
       where: {
-        id: req.params.id,
-        boardId: req.params.boardId,
+        boardId,
       },
     });
 
@@ -108,9 +85,10 @@ router.delete(
       return res.status(404).json({ message: "Image not found" });
     }
 
-    await boardImage.destroy();
+    // Update the image properties based on the request body
+    await boardImage.update(req.body);
 
-    res.status(204).end();
+    res.json(boardImage);
   })
 );
 
