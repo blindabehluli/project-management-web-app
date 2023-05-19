@@ -111,7 +111,7 @@ export default function EditTask({ onClose, board, task }) {
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Title</div>
               <input
-                className="modal-input-edit"
+                className="modal-input"
                 type="text"
                 placeholder="Enter task title..."
                 ref={taskTitleRef}

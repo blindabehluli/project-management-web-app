@@ -122,7 +122,7 @@ function EditWorkspace({ workspaceId, onClose }) {
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Title</div>
               <input
-                className="modal-input-edit"
+                className="modal-input"
                 type="text"
                 placeholder="My Workspace..."
                 ref={workspaceTitle}
@@ -141,7 +141,7 @@ function EditWorkspace({ workspaceId, onClose }) {
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Logo Url</div>
               <input
-                className="modal-input-edit"
+                className="modal-input"
                 type="text"
                 placeholder="e.g https://example.com/default-logo.png"
                 ref={workspaceLogoUrl}

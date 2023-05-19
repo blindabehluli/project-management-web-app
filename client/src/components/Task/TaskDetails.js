@@ -13,7 +13,7 @@ export default function TaskDetails({ onClose, board, task, columns }) {
   const [showTaskDetails, setShowTaskDetails] = useState(true);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const credentials = useContext(UserContext);
+  const { credentials } = useContext(UserContext);
   const { workspaceId } = useParams();
 
   useEffect(() => {
@@ -59,24 +59,29 @@ export default function TaskDetails({ onClose, board, task, columns }) {
 
   const onChangeStatus = async (event) => {
     const selectedColumnId = event.target.value;
-
+  
     try {
       // Make an API call to update the task's columnId
       const response = await api(
-        `/workspaces/${workspaceId}/boards/${board.id}/columns/${selectedColumnId}/tasks/${task.id}`,
+        `/workspaces/${workspaceId}/boards/${board.id}/columns/${task.columnId}/tasks/${task.id}`,
         "PUT",
         { columnId: selectedColumnId },
         credentials
       );
-
+  
       if (response.status === 204) {
+        onClose();
+        // Task status updated successfully
+      }  else if (response.status === 400) {
+        const data = await response.json();
+        console.log(data.error);
       } else {
         throw new Error("Failed to update the task's status");
       }
     } catch (error) {
       console.error(error);
     }
-  };
+  };  
 
   return (
     <>

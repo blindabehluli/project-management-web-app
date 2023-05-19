@@ -149,6 +149,9 @@ export default function Header({ selectedBoard }) {
                     >
                       Delete Board
                     </button>
+                    <Link to="/signout" className="dropdown-signout">
+                      Sign Out
+                    </Link>
                   </div>
                 )}
               </div>

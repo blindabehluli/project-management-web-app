@@ -72,7 +72,7 @@ function EditBoard({ board, onClose }) {
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Title</div>
               <input
-                className="modal-input-edit"
+                className="modal-input"
                 type="text"
                 placeholder="Design System..."
                 ref={boardTitle}

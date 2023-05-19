@@ -104,7 +104,7 @@ function EditColumn({ board, column, onClose }) {
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Status</div>
               <input
-                className="modal-input-edit"
+                className="modal-input"
                 type="text"
                 placeholder="To do..."
                 ref={columnStatus}

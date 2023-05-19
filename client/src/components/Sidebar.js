@@ -4,7 +4,7 @@ import { api } from "../utils/apiHelper";
 import UserContext from "../context/UserContext";
 import hideIcon from "../assets/hide.svg";
 import showIcon from "../assets/show.svg";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function Sidebar({ onToggleSidebar, onBoardClick }) {
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
@@ -97,7 +97,6 @@ export default function Sidebar({ onToggleSidebar, onBoardClick }) {
           )}
         </div>
         <div className="sidebar-bottom">
-            <Link className="sidebar-signout" to="/signout">Sign out</Link>
           <button className="sidebar-hide" onClick={handleToggleSidebar}>
             <img className="mr-[15px]" src={hideIcon} alt="hide"></img>
             {isSidebarHidden ? "" : "Hide Sidebar"}
