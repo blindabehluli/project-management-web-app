@@ -116,7 +116,7 @@ export default function Board({ isBoardFull, selectedBoard }) {
   }, [credentials, selectedBoard, workspaceId]);
 
   useEffect(() => {
-    const fetchBoardImages = async () => {
+    const fetchBoardImage = async () => {
       try {
         const response = await api(
           `/workspaces/${workspaceId}/boards/${selectedBoard.id}/images`,
@@ -135,7 +135,7 @@ export default function Board({ isBoardFull, selectedBoard }) {
       }
     };
 
-    fetchBoardImages();
+    fetchBoardImage();
   }, [credentials, selectedBoard, workspaceId]);
 
   return (
