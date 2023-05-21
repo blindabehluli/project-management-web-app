@@ -16,6 +16,8 @@ export default function TaskDetails({ onClose, board, task, columns }) {
   const { credentials } = useContext(UserContext);
   const { workspaceId } = useParams();
 
+  const [subtasks, setSubtasks] = useState([]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -83,6 +85,57 @@ export default function TaskDetails({ onClose, board, task, columns }) {
     }
   };
 
+  useEffect(() => {
+    const fetchSubtasks = async () => {
+      try {
+        const response = await api(
+          `/workspaces/${workspaceId}/boards/${board.id}/columns/${task.columnId}/tasks/${task.id}/subtasks`,
+          "GET",
+          null,
+          credentials
+        );
+        if (response.status === 200) {
+          const data = await response.json();
+          setSubtasks(data);
+        } else {
+          throw new Error("Failed to fetch subtasks");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSubtasks();
+  }, [credentials, task, board.id, workspaceId]);
+
+  const handleSubtaskCheckboxChange = async (subtaskId, isComplete) => {
+    try {
+      const response = await api(
+        `/workspaces/${workspaceId}/boards/${board.id}/columns/${task.columnId}/tasks/${task.id}/subtasks/${subtaskId}`,
+        "PUT",
+        { isComplete },
+        credentials
+      );
+      if (response.status === 204) {
+        // Subtask updated successfully
+        const updatedSubtasks = subtasks.map((subtask) => {
+          if (subtask.id === subtaskId) {
+            return {
+              ...subtask,
+              isComplete: isComplete,
+            };
+          }
+          return subtask;
+        });
+        setSubtasks(updatedSubtasks);
+      } else {
+        throw new Error("Failed to update the subtask");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       {showTaskDetails && (
@@ -144,7 +197,27 @@ export default function TaskDetails({ onClose, board, task, columns }) {
                   </div>
                 )}
               </div>
-              <div className="modal-input-wrapper mt-16">
+              <div className="view-subtasks-wrapper">
+                <p className="view-subtasks-subtitle">
+                Subtasks ({subtasks.filter((subtask) => subtask.isComplete).length} of {subtasks.length})
+                </p>
+                {subtasks.map((subtask) => (
+                  <label key={subtask.id} className="checkbox mt-2">
+                    <input
+                      type="checkbox"
+                      checked={subtask.isComplete}
+                      onChange={(e) =>
+                        handleSubtaskCheckboxChange(
+                          subtask.id,
+                          e.target.checked
+                        )
+                      }
+                    />{" "}
+                    {subtask.subtaskTitle}
+                  </label>
+                ))}
+              </div>
+              <div className="modal-input-wrapper mt-8">
                 <div className="modal-input-label">Current Status</div>
                 <select
                   className="modal-input"

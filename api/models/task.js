@@ -21,6 +21,11 @@ module.exports = (sequelize) => {
         },
       });
     }
+
+    async createSubtask(subtaskData) {
+      const subtask = await this.createSubTask(subtaskData);
+      return subtask;
+    }
   }
 
   Task.init(
@@ -62,7 +67,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: "Task",
-      tableName: "Task"
+      tableName: "Task",
     }
   );
 

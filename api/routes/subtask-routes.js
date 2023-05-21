@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const { Task, Subtask } = require("../models");
+const { Task, SubTask } = require("../models");
 const { asyncHandler } = require("../middleware/async-handler");
 const { authenticateUser } = require("../middleware/auth-user");
 const { workspaceAccess } = require("../middleware/workspace-access");
@@ -19,7 +19,7 @@ router.get(
   authenticateUser,
   workspaceAccess("member"),
   asyncHandler(async (req, res) => {
-    const subtasks = await Subtask.findAll({
+    const subtasks = await SubTask.findAll({
       where: { taskId: req.params.taskId },
     });
     res.json(subtasks);
@@ -35,7 +35,7 @@ router.get(
   authenticateUser,
   workspaceAccess("member"),
   asyncHandler(async (req, res) => {
-    const subtask = await Subtask.findOne({
+    const subtask = await SubTask.findOne({
       where: {
         id: req.params.id,
         taskId: req.params.taskId,
@@ -96,7 +96,7 @@ router.put(
   workspaceAccess("member"),
   asyncHandler(async (req, res) => {
     try {
-      const subtask = await Subtask.findOne({
+      const subtask = await SubTask.findOne({
         where: {
           id: req.params.id,
           taskId: req.params.taskId,
@@ -130,7 +130,7 @@ router.delete(
   workspaceAccess("member"),
   asyncHandler(async (req, res) => {
     try {
-      const subtask = await Subtask.findOne({
+      const subtask = await SubTask.findOne({
         where: {
           id: req.params.id,
           taskId: req.params.taskId,

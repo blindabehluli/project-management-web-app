@@ -39,6 +39,7 @@ function CreateBoard({ onClose }) {
       boardTitle: boardTitle.current.value,
       boardDescription: boardDescription.current.value,
     };
+
     try {
       const response = await api(
         `/workspaces/${workspaceId}/boards`,

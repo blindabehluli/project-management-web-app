@@ -20,26 +20,18 @@ module.exports = (sequelize) => {
       // model attributes
       subtaskTitle: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: "A subtask text is required.",
-          },
-          notEmpty: {
-            msg: "Please provide a subtask text.",
-          },
-        },
+        allowNull: true,
       },
       isComplete: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
+        allowNull: true,
         defaultValue: false,
       },
     },
     {
       sequelize,
       modelName: "SubTask",
-      tableName: "SubTask"
+      tableName: "SubTask",
     }
   );
 

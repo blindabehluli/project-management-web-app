@@ -76,12 +76,31 @@ export default function Board({ isBoardFull, selectedBoard }) {
             if (tasksResponse.status === 200) {
               const tasksData = await tasksResponse.json();
               column.tasks = tasksData; // Assign tasks to the column
+
+              // Fetch subtasks for each task
+              const subtasksPromises = tasksData.map(async (task) => {
+                const subtasksResponse = await api(
+                  `/workspaces/${workspaceId}/boards/${selectedBoard.id}/columns/${column.id}/tasks/${task.id}/subtasks`,
+                  "GET",
+                  null,
+                  credentials
+                );
+                if (subtasksResponse.status === 200) {
+                  const subtasksData = await subtasksResponse.json();
+                  task.subtasks = subtasksData; // Assign subtasks to the task
+                } else {
+                  throw new Error("Failed to fetch subtasks");
+                }
+              });
+
+              // Wait for all subtasks to be fetched for each task
+              await Promise.all(subtasksPromises);
             } else {
               throw new Error("Failed to fetch tasks");
             }
           });
 
-          // Wait for all tasks to be fetched for each column
+          // Wait for all tasks and subtasks to be fetched for each column
           await Promise.all(columnTasksPromises);
 
           setColumns(data);
