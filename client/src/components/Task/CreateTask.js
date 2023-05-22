@@ -3,6 +3,7 @@ import UserContext from "../../context/UserContext";
 import { api } from "../../utils/apiHelper";
 import ErrorsDisplay from "../ErrorsDisplay";
 import { useParams } from "react-router-dom";
+import useClickOutside from "../../hooks/useClickOutside";
 
 export default function CreateTask({ onClose, selectedBoard }) {
   const modalRef = useRef(null);
@@ -17,19 +18,8 @@ export default function CreateTask({ onClose, selectedBoard }) {
   const { workspaceId } = useParams(); // Access the workspaceId from params
   const [columns, setColumns] = useState([]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, onClose]);
-
+  useClickOutside(modalRef, onClose);
+  
   useEffect(() => {
     const fetchColumns = async () => {
       try {

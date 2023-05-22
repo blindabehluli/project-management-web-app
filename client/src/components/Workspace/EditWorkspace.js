@@ -3,6 +3,7 @@ import UserContext from "../../context/UserContext";
 import { api } from "../../utils/apiHelper";
 import ErrorsDisplay from "../ErrorsDisplay";
 import { useNavigate } from "react-router-dom";
+import useClickOutside from "../../hooks/useClickOutside";
 
 function EditWorkspace({ workspaceId, onClose }) {
   const modalRef = useRef(null);
@@ -15,17 +16,7 @@ function EditWorkspace({ workspaceId, onClose }) {
 
   const { credentials } = useContext(UserContext);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, onClose]);
+  useClickOutside(modalRef, onClose);
 
   useEffect(() => {
     setErrors([]);

@@ -3,16 +3,8 @@ import UserContext from "../../context/UserContext";
 import { api } from "../../utils/apiHelper";
 import ErrorsDisplay from "../ErrorsDisplay";
 import { useParams } from "react-router-dom";
-
-const colorOptions = [
-  { name: "Red", color: "#C66759" },
-  { name: "Orange", color: "#E1B205" },
-  { name: "Green", color: "#51AC84" },
-  { name: "Light Blue", color: "#5EA7AE" },
-  { name: "Blue", color: "#5384CB" },
-  { name: "Dark Gray", color: "#545E6E" },
-  { name: "Purple", color: "#857BC1" },
-];
+import useClickOutside from "../../hooks/useClickOutside";
+import { colorOptions } from "./colors.js";
 
 function EditColumn({ board, column, onClose }) {
   const modalRef = useRef(null);
@@ -23,18 +15,7 @@ function EditColumn({ board, column, onClose }) {
   const { credentials } = useContext(UserContext);
   const { workspaceId } = useParams(); // Access the workspaceId from params
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, onClose]);
+  useClickOutside(modalRef, onClose);
 
   useEffect(() => {
     setErrors([]); // Reset errors when the modal is reopened

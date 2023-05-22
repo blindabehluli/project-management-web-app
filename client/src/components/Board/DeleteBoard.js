@@ -1,27 +1,17 @@
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useContext } from "react";
 import UserContext from "../../context/UserContext";
 import { api } from "../../utils/apiHelper";
 import { useNavigate, useParams } from "react-router-dom";
+import useClickOutside from "../../hooks/useClickOutside";
 
 function DeleteBoard({ board, onClose }) {
   const modalRef = useRef(null);
   const navigate = useNavigate();
-  
+
   const { credentials } = useContext(UserContext);
   const { workspaceId } = useParams(); // Access the workspaceId from params
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, onClose]);
+  useClickOutside(modalRef, onClose);
 
   const handleDelete = async () => {
     try {
@@ -61,10 +51,16 @@ function DeleteBoard({ board, onClose }) {
             </p>
           </div>
           <div className="flex justify-between">
-          <button className="button button-danger button-small mr-4" onClick={handleDelete}>
+            <button
+              className="button button-danger button-small mr-4"
+              onClick={handleDelete}
+            >
               Delete
             </button>
-          <button className="button button-cancel button-small" onClick={onClose}>
+            <button
+              className="button button-cancel button-small"
+              onClick={onClose}
+            >
               Cancel
             </button>
           </div>

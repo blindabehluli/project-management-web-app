@@ -7,6 +7,7 @@ import BoardImage from "./BoardImage";
 import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 import { useParams, Link } from "react-router-dom";
+import useClickOutside from "../hooks/useClickOutside";
 
 export default function Header({ selectedBoard }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -20,6 +21,10 @@ export default function Header({ selectedBoard }) {
   const dropdownRef = useRef(null);
   const { credentials } = useContext(UserContext);
   const { workspaceId } = useParams();
+
+  useClickOutside(dropdownRef, () => {
+    setIsDropdownOpen(false);
+  });
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -59,19 +64,6 @@ export default function Header({ selectedBoard }) {
   const handleCloseBoardImage = () => {
     setIsBoardImageOpen(false);
   };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   useEffect(() => {
     const fetchWorkspaceDetails = async () => {

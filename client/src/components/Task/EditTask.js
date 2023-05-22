@@ -5,6 +5,7 @@ import ErrorsDisplay from "../ErrorsDisplay";
 import { useParams } from "react-router-dom";
 import SubTaskForm from "../SubTask/SubTaskForm";
 import SubTaskList from "../SubTask/SubTaskList";
+import useClickOutside from "../../hooks/useClickOutside";
 
 export default function EditTask({ onClose, board, task }) {
   const modalRef = useRef(null);
@@ -23,6 +24,8 @@ export default function EditTask({ onClose, board, task }) {
   const [subtasks, setSubtasks] = useState([]);
 
   const subtaskTitleRefs = useRef([]); // Array of refs for subtask input fields
+
+  useClickOutside(modalRef, onClose);
 
   useEffect(() => {
     const fetchSubtasks = async () => {
@@ -132,19 +135,6 @@ export default function EditTask({ onClose, board, task }) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, onClose]);
 
   useEffect(() => {
     const fetchColumns = async () => {

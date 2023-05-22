@@ -12,6 +12,7 @@ import LoadMoreButton from "./LoadMoreButton";
 import DeleteBoardImage from "./DeleteBoardImage";
 import { handlePhotoClick } from "./UpdateBoardImage";
 import UserContext from "../../context/UserContext";
+import useClickOutside from "../../hooks/useClickOutside";
 
 const AccessKey = "j_wh1cRHUm3GFGOOjLhnhtGp5squVwmbSC3zbfm_2pI";
 const perPage = 9; // Number of photos to fetch per page
@@ -28,18 +29,7 @@ export default function BoardImage({ board, onClose }) {
   const { workspaceId } = useParams();
   const { credentials } = useContext(UserContext);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, onClose]);
+  useClickOutside(modalRef, onClose);
 
   const fetchPhotos = useCallback(() => {
     setIsLoading(true);

@@ -3,6 +3,7 @@ import UserContext from "../../context/UserContext";
 import { api } from "../../utils/apiHelper";
 import ErrorsDisplay from "../ErrorsDisplay";
 import { useParams, useNavigate } from "react-router-dom";
+import useClickOutside from "../../hooks/useClickOutside";
 
 function EditWorkspaceMember({ memberId, onClose }) {
   const modalRef = useRef(null);
@@ -14,18 +15,7 @@ function EditWorkspaceMember({ memberId, onClose }) {
   const { workspaceId } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, onClose]);
+  useClickOutside(modalRef, onClose);
 
   const fetchMemberData = useCallback(async () => {
     try {

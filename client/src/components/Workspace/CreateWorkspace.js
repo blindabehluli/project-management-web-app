@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useContext } from "react";
 import UserContext from "../../context/UserContext";
 import { api } from "../../utils/apiHelper";
 import ErrorsDisplay from "../ErrorsDisplay";
+import useClickOutside from "../../hooks/useClickOutside";
 
 function CreateWorkspace({ onClose }) {
   const modalRef = useRef(null);
@@ -12,6 +13,8 @@ function CreateWorkspace({ onClose }) {
   const [errors, setErrors] = useState([]);
 
   const { credentials } = useContext(UserContext);
+
+  useClickOutside(modalRef, onClose);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
