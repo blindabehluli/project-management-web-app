@@ -4,6 +4,7 @@ import EditTask from "./EditTask";
 import UserContext from "../../context/UserContext";
 import { useParams } from "react-router-dom";
 import { api } from "../../utils/apiHelper";
+import useClickOutside from "../../hooks/useClickOutside";
 
 export default function TaskDetails({ onClose, board, task, columns }) {
   const modalRef = useRef(null);
@@ -18,23 +19,7 @@ export default function TaskDetails({ onClose, board, task, columns }) {
 
   const [subtasks, setSubtasks] = useState([]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target) &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, dropdownRef, onClose]);
+  useClickOutside(modalRef, onClose);
 
   const onClickEdit = () => {
     setShowEditTaskModal(true);
