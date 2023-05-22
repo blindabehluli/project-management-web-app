@@ -199,10 +199,17 @@ export default function TaskDetails({ onClose, board, task, columns }) {
               </div>
               <div className="view-subtasks-wrapper">
                 <p className="view-subtasks-subtitle">
-                Subtasks ({subtasks.filter((subtask) => subtask.isComplete).length} of {subtasks.length})
+                  Subtasks (
+                  {subtasks.filter((subtask) => subtask.isComplete).length} of{" "}
+                  {subtasks.length})
                 </p>
                 {subtasks.map((subtask) => (
-                  <label key={subtask.id} className="checkbox mt-2">
+                  <label
+                    key={subtask.id}
+                    className={`checkbox mt-2 ${
+                      subtask.isComplete ? "completed" : ""
+                    }`}
+                  >
                     <input
                       type="checkbox"
                       checked={subtask.isComplete}

@@ -801,16 +801,13 @@ h2 {
   padding: 0.75rem;
   background: #f4f7fd;
   border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
   user-select: none;
-  text-decoration: line-through;
-  text-decoration-color: transparent;
   transition: all 0.2s ease;
-  color: #828fa3;
+  color: #696969;
 }
-
 
 .checkbox:hover {
   background: #dbeafe;
@@ -848,4 +845,9 @@ h2 {
 
 .checkbox > input[type="checkbox"]:checked::before {
   transform: scale(1);
+}
+
+.checkbox.completed {
+  text-decoration: line-through;
+  color: #828fa3;
 }
