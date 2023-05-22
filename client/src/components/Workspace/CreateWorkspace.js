@@ -17,19 +17,6 @@ function CreateWorkspace({ onClose }) {
   useClickOutside(modalRef, onClose);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef, onClose]);
-
-  useEffect(() => {
     setErrors([]); // Reset errors when the modal is reopened
     workspaceTitle.current.value = ""; // Reset form values
     workspaceDescription.current.value = "";
