@@ -3,7 +3,7 @@ const { Model, DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   class Board extends Model {
     static associate(models) {
-      // Model association are defined here
+      // Model associations are defined here
 
       Board.hasMany(models.Column, {
         foreignKey: {
@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
 
   Board.init(
     {
-      // model attributes
+      // Model attributes
       boardTitle: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -62,9 +62,9 @@ module.exports = (sequelize) => {
       modelName: "Board",
       tableName: "Board",
       hooks: {
-        // This hook is executed after a new Workspace is created and saved to the database
+        // This hook is executed after a new Board is created and saved to the database
         async afterCreate(board, options) {
-          // Create a WorkspaceMember instance with the role of 'default'
+          // Create a BoardImage instance with a default image url
           await sequelize.models.BoardImage.create(
             {
               boardId: board.id,
@@ -72,6 +72,17 @@ module.exports = (sequelize) => {
             },
             { transaction: options.transaction }
           );
+        },
+
+        // This hook is executed before a Board is destroyed/deleted from the database
+        async beforeDestroy(board, options) {
+          // Delete the associated BoardImage instance
+          await sequelize.models.BoardImage.destroy({
+            where: {
+              boardId: board.id,
+            },
+            transaction: options.transaction,
+          });
         },
       },
     }

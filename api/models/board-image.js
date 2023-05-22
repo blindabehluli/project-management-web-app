@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
       // model attributes
       boardImageUrl: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
     },
     {
