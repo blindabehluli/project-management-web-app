@@ -463,6 +463,20 @@ h2 {
   animation: fadeIn 0.3s ease;
 }
 
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  100% { opacity: 1; }
+  0% { opacity: 0; }
+}
+
+.fadeOut {
+  animation: fadeOut 0.3s ease-in-out;
+}
+
 .bg-image-modal {
   position: relative;
   left: 0;
