@@ -61,8 +61,7 @@ router.post(
       const board = await workspace.createBoard(req.body);
       res
         .status(201)
-        .location(`/workspaces/${workspace.id}/boards/${board.id}`)
-        .end();
+        .json(board);
     } catch (error) {
       errorHandler(error, res);
     }

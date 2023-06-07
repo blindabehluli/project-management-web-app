@@ -71,7 +71,7 @@ router.post(
         userId: req.currentUser.id,
       });
 
-      res.status(201).location(`/workspaces/${workspace.id}`).end();
+      res.status(201).json(workspace); // Return the created workspace object in the response body
     } catch (error) {
       errorHandler(error, res);
     }
