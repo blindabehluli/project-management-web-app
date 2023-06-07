@@ -38,7 +38,7 @@ export default function Sidebar({ onToggleSidebar, onBoardClick }) {
   );
 
   useEffect(() => {
-    const fetchWorkspaces = async () => {
+    const fetchBoards = async () => {
       try {
         const response = await api(
           `/workspaces/${workspaceId}/boards`,
@@ -63,7 +63,7 @@ export default function Sidebar({ onToggleSidebar, onBoardClick }) {
       }
     };
 
-    fetchWorkspaces();
+    fetchBoards();
   }, [credentials, selectedBoard, onBoardClick, workspaceId]);
 
   return (
@@ -93,6 +93,7 @@ export default function Sidebar({ onToggleSidebar, onBoardClick }) {
             <CreateBoard
               onClose={handleCloseModal}
               selectedBoard={selectedBoard} // Pass the selectedBoard prop
+              setBoards={setBoards}
             />
           )}
         </div>

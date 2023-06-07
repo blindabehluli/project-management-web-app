@@ -5,7 +5,7 @@ import ErrorsDisplay from "../ErrorsDisplay";
 import { useParams } from "react-router-dom";
 import useClickOutside from "../../hooks/useClickOutside";
 
-function CreateBoard({ onClose }) {
+function CreateBoard({ onClose, setBoards }) {
   const modalRef = useRef(null);
   const boardTitle = useRef(null);
   const boardDescription = useRef(null);
@@ -39,6 +39,8 @@ function CreateBoard({ onClose }) {
       );
       if (response.status === 201) {
         onClose(); // Close the modal after successful submission
+        const newBoard = await response.json();
+        setBoards((prevBoards) => [...prevBoards, newBoard]);
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);

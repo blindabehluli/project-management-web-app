@@ -4,7 +4,7 @@ import { api } from "../../utils/apiHelper";
 import ErrorsDisplay from "../ErrorsDisplay";
 import useClickOutside from "../../hooks/useClickOutside";
 
-function CreateWorkspace({ onClose }) {
+function CreateWorkspace({ onClose, setWorkspaces }) {
   const modalRef = useRef(null);
   const workspaceTitle = useRef(null);
   const workspaceDescription = useRef(null);
@@ -35,6 +35,8 @@ function CreateWorkspace({ onClose }) {
       const response = await api(`/workspaces`, "POST", workspace, credentials);
       if (response.status === 201) {
         onClose(); // Close the modal after successful submission
+        const newWorkspace = await response.json();
+        setWorkspaces((prevWorkspaces) => [...prevWorkspaces, newWorkspace]);
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);

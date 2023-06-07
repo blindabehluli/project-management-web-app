@@ -24,6 +24,7 @@ function DeleteBoard({ board, onClose }) {
 
       if (response.status === 204) {
         onClose(); // Close the modal after successful deletion
+        window.location.reload();
       } else if (response.status === 400) {
         const data = await response.json();
         console.log(data.error);

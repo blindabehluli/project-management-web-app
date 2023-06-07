@@ -9,7 +9,7 @@ import { api } from "../utils/apiHelper";
 import { useParams, Link } from "react-router-dom";
 import useClickOutside from "../hooks/useClickOutside";
 
-export default function Header({ selectedBoard }) {
+export default function Header({ selectedBoard, setBoards }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEditBoardOpen, setIsEditBoardOpen] = useState(false);
   const [isDeleteBoardOpen, setIsDeleteBoardOpen] = useState(false);
@@ -158,7 +158,7 @@ export default function Header({ selectedBoard }) {
         />
       )}
       {isEditBoardOpen && (
-        <EditBoard board={selectedBoard} onClose={handleCloseEditBoard} />
+        <EditBoard board={selectedBoard} onClose={handleCloseEditBoard} setBoards={setBoards} />
       )}
       {isDeleteBoardOpen && (
         <DeleteBoard board={selectedBoard} onClose={handleCloseDeleteBoard} />

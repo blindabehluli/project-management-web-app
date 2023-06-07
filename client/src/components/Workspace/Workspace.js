@@ -49,7 +49,9 @@ const Workspace = () => {
         <div className="workspace-body">
           <div className="workspace-title">
             Workspaces for {credentials.emailAddress}
-            <Link to="/signout" className="text-primary-600 hover:underline">Sign out</Link>
+            <Link to="/signout" className="text-primary-600 hover:underline">
+              Sign out
+            </Link>
           </div>
           <div className="workspace-list divide-y">
             {workspaces.map((workspace) => (
@@ -112,12 +114,16 @@ const Workspace = () => {
             </button>
           </div>
           {isCreateWorkspaceOpen && (
-            <CreateWorkspace onClose={() => setIsCreateWorkspaceOpen(false)} />
+            <CreateWorkspace
+              onClose={() => setIsCreateWorkspaceOpen(false)}
+              setWorkspaces={setWorkspaces}
+            />
           )}
           {isEditOpen && (
             <EditWorkspace
               workspaceId={selectedWorkspaceId} // Pass the selectedWorkspaceId to EditWorkspace
               onClose={() => setIsEditOpen(false)}
+              setWorkspaces={setWorkspaces}
             />
           )}
         </div>

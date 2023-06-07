@@ -17,6 +17,7 @@ export default function DeleteBoardImage({ workspaceId, board, onClose }) {
 
       if (response.status === 200) {
         onClose(); // Close the modal after successful update
+        window.location.reload();
       } else if (response.status === 400) {
         const data = await response.json();
         console.log(data.error);

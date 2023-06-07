@@ -5,7 +5,7 @@ import ErrorsDisplay from "../ErrorsDisplay";
 import { useNavigate } from "react-router-dom";
 import useClickOutside from "../../hooks/useClickOutside";
 
-function EditWorkspace({ workspaceId, onClose }) {
+function EditWorkspace({ workspaceId, onClose, setWorkspaces }) {
   const modalRef = useRef(null);
   const workspaceTitle = useRef(null);
   const workspaceDescription = useRef(null);
@@ -66,6 +66,14 @@ function EditWorkspace({ workspaceId, onClose }) {
       );
       if (response.status === 204) {
         onClose();
+        // Update the existing workspace in the state
+        setWorkspaces((prevWorkspaces) =>
+          prevWorkspaces.map((prevWorkspace) =>
+            prevWorkspace.id === workspaceId
+              ? { ...prevWorkspace, ...workspace }
+              : prevWorkspace
+          )
+        );
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);
@@ -91,6 +99,8 @@ function EditWorkspace({ workspaceId, onClose }) {
       );
       if (response.status === 204) {
         onClose();
+        const newWorkspace = await response.json();
+        setWorkspaces((prevWorkspaces) => [...prevWorkspaces, newWorkspace]);
       } else if (response.status === 403) {
         navigate("/forbidden");
       } else if (response.status === 500) {
@@ -109,7 +119,7 @@ function EditWorkspace({ workspaceId, onClose }) {
         <div className="modal-add-new">
           <div className="modal-add-new mb-4">Edit Workspace</div>
           <ErrorsDisplay errors={errors} />
-          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-4 md:space-y-6">
             <div className="modal-input-wrapper">
               <div className="modal-input-label">Title</div>
               <input

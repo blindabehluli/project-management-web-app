@@ -17,6 +17,7 @@ export const handlePhotoClick = async (
 
     if (response.status === 200) {
       onClose();
+      window.location.reload();
     } else if (response.status === 400) {
       const data = await response.json();
       console.log("Error:", data.errors);
